@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView , FlatList, Image, ToastAndroid,
     Keyboard,} from 'react-native';
@@ -8,12 +9,35 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import useGooglePlaces1 from '../Components/useGooglePlaces1';
 import * as RootNavigation from '../RootNavigation'
+import { signOut, getAuth, onAuthStateChanged} from 'firebase/auth';
+
+    
 
 
 const LoginScreen = ({ navigation }) => {
     const [islogin, setIsLogin] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        // Mounting function
+        const unsubscribeAuthStateChanged = onAuthStateChanged(auth, (user) => {
+    if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+    console.log('signed in' + user)
+    setIsLogin(true)
+  } else {
+    // User is signed out
+    // ...
+    setIsLogin(false)
+    console.log('signedout ' + user)
+  }
+});
+return () =>unsubscribeAuthStateChanged;
+    },[])
 
     const missingFieldsToast = () => {
         ToastAndroid.show(
