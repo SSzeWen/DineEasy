@@ -4,6 +4,8 @@ import { Text, Input, Button } from 'react-native-elements';
 import Spacer from '../Components/Spacer';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, collection } from "firebase/firestore";
+import { db } from '../firebase';
 
 const SignupScreen = ({ navigation }) => {
     const [isLogin, setIsLogin] = useState(true);
@@ -24,6 +26,12 @@ const SignupScreen = ({ navigation }) => {
         );
     };
 
+    const onSubmitHandler = async (id) => {
+            const rateRef = await setDoc(doc(db, "User", id, "Rated Restaurants", id),{});
+            const saveRef = await setDoc(doc(db, "User", id, "Saved Restaurants", id),{});
+    }
+        
+
     const signUpHandler = () => {
         if (email.length === 0 || password.length === 0) {
             missingFieldsToast();
@@ -33,12 +41,14 @@ const SignupScreen = ({ navigation }) => {
         return createUserWithEmailAndPassword(auth, email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
-
+                onSubmitHandler(user.uid);
                 // To show the user object returned
                 console.log(user);
 
                 restoreForm();
                 signUpToast();
+                
+
             })
             .catch(error => {
                 const errorCode = error.code;

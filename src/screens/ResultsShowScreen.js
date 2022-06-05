@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView , FlatList, Image} from 'react-nativ
 import yelp from '../api/yelp';
 import useGooglePlaces1 from '../Components/useGooglePlaces1';
 import {Google_apikey} from '@env'
+import SaveRate from '../Components/SaveRate';
 
 const ResultShowScreen = ({ route }) => {
     const [result, setResult] = useState(null);
@@ -38,7 +39,7 @@ const ResultShowScreen = ({ route }) => {
     } // not impt also not sure and line 26 also
 
     return (
-        <View>
+        <View style = {{ flex: 1}}>
             { result.result.formatted_address != null ? <Text>{result.result.formatted_address}</Text> : null} 
             <FlatList
                 data={result.result.photos}
@@ -47,6 +48,7 @@ const ResultShowScreen = ({ route }) => {
                     console.log(item)
                     return <Image style={styles.image} source={{ uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey}} />
                 }} />
+            <SaveRate props={[result.result.name, result.result.photos[0].photo_reference]}/>
         </View>
     );
 };
