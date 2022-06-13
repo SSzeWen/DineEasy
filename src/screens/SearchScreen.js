@@ -9,7 +9,16 @@ import useGooglePlaces1 from '../Components/useGooglePlaces1';
 const SearchScreen = () => {
     const [term, setTerm] = useState('');
     //const [searchApi, results, errorMessage] = useResults();
-    const [searchApi, results, errorMessage] = useGooglePlaces1();
+    const [searchApi, results, results1, errorMessage] = useGooglePlaces1();
+    console.log(results1)
+
+    if(results1.length === 1) {
+        console.log(results1)
+    }
+    useEffect(()=> {
+        console.log(results1)
+    },[])
+    
 
 
     /*const filterResultsByPrice = (price) => {
@@ -23,6 +32,7 @@ const SearchScreen = () => {
 
     return (
         <View style = {{ flex: 1}}>
+            <Text>{results1}</Text>
             <SearchBar 
                 term={term} 
                 onTermChange={setTerm}

@@ -2,6 +2,8 @@ import {Google_apikey} from "@env"
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import Currentlocation from "./Currentlocation";
+import { auth,db } from '../firebase';
+import { query, collection, onSnapshot, addDoc, setDoc, doc } from 'firebase/firestore';
 
 
 
@@ -11,6 +13,7 @@ import Currentlocation from "./Currentlocation";
 let fillthisarray = [];
 let fillsecondarray = [];
 let therealarray = [];
+let fillthirdarray = [];
 
 async function GooglePlacesNextPage2 (token) {
   const latitude = 1.4304; // you can update it with user's latitude & Longitude
@@ -20,6 +23,23 @@ async function GooglePlacesNextPage2 (token) {
     if (token === undefined) {
       return
     }
+
+    const Restauranturl = async(id) => {
+      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url&key=' + Google_apikey
+        console.log(resurl)
+        await fetch(resurl).then(res=> {
+            return res.json()
+        }).then(res=> {
+
+          fillthirdarray.push(res.result.url)
+            return res.result.url
+        })
+        .catch(error => {
+          setErrorMessage("Something went wrong")
+          console.log(error);
+        });
+    }
+
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude +'&radius=' + radMetter + '&type=restaurant&opennow=true' + '&key=' + Google_apikey + '&pagetoken=' + token
     //const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=' + token + '&key=' + Google_apikey
     console.log(url)
@@ -57,6 +77,7 @@ async function GooglePlacesNextPage2 (token) {
           place['rating'] = googlePlace.rating
           place['image_url'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + gallery[0] + '&key=' + Google_apikey
           place['review_count'] = googlePlace.user_ratings_total
+          Restauranturl(googlePlace.place_id);
           places.push(place);
           fillthisarray.push(place);
         }
@@ -93,10 +114,27 @@ function useGooglePlaces1() {
     const [token, setToken] = useState('');
     const [url1, setUrl1] = useState('')
     const [result, setResult] = useState()
+    const [googleurl, setGoogleurl] = useState()
     const [errorMessage, setErrorMessage] = useState('')
     console.log(latitude)
     console.log(longitude)
     const [numberoftimes, useNumberoftimes] = useState('false')
+
+    const Restauranturl = async(id) => {
+      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url&key=' + Google_apikey
+        console.log(resurl)
+        await fetch(resurl).then(res=> {
+            return res.json()
+        }).then(res=> {
+
+          fillthirdarray.push(res.result.url)
+            return res.result.url
+        })
+        .catch(error => {
+          setErrorMessage("Something went wrong")
+          console.log(error);
+        });
+    }
     
     const SearchApi = async(Searchterm, reset) => {
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&keyword=' + Searchterm +'&radius=' + radMetter + '&type=restaurant&opennow=true' + '&key=' + Google_apikey
@@ -125,9 +163,11 @@ function useGooglePlaces1() {
       var places = [] // This Array WIll contain locations received from google
       for (var i = 0; i < 60; i += 1){
         fillthisarray.pop();
+        fillthirdarray.pop();
       }
       useNumberoftimes('true');
         for(let googlePlace of res.results) {
+          var count = 0;
           var place = {}
           var lat = googlePlace.geometry.location.lat;
           var lng = googlePlace.geometry.location.lng;
@@ -152,7 +192,8 @@ function useGooglePlaces1() {
           place['gallery'] = gallery
           place['rating'] = googlePlace.rating
           place['image_url'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + gallery[0] + '&key=' + Google_apikey
-          place['review_count'] = googlePlace.user_ratings_total
+          place['review_count'] = googlePlace.user_ratings_total 
+          Restauranturl(googlePlace.place_id)
           places.push(place);
           fillthisarray.push(place);
         }
@@ -225,7 +266,7 @@ function useGooglePlaces1() {
         setUrl1('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + photoreference + '&key=' + Google_apikey)
       },[restaurantpic])*/
 
-      return [SearchApi, {fillthisarray}, errorMessage]
+      return [SearchApi, {fillthisarray}, fillthirdarray, errorMessage]
 
   };
   

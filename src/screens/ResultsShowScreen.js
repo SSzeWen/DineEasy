@@ -21,12 +21,13 @@ const ResultShowScreen = ({ route }) => {
 */
 
     const getResult = async(id) => {
-        var url =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=name%2Cformatted_address%2Cprice_level%2Cphotos&key=' + Google_apikey
+        var url =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=name%2Cformatted_address%2Cprice_level%2Cphotos%2Curl&key=' + Google_apikey
         console.log(url)
         await fetch(url).then(res=> {
             return res.json()
         }).then(res=> {
             setResult(res)
+            console.log(res)
         })
     }
     useEffect(()=> {

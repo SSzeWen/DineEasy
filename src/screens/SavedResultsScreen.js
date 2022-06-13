@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { query, collection, onSnapshot, addDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db , auth} from '../firebase';
-import {Google_apikey} from '@env'
+import {Google_apikey} from '@env';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 const SavedResultsScreen = () => {
@@ -47,7 +48,6 @@ const SavedResultsScreen = () => {
     }, []);
     return (
         <View>
-            <Text>SavedResultsScreen</Text>
             <FlatList
             data={taskList}
             keyExtractor={(result) => result.desc}
@@ -56,11 +56,16 @@ const SavedResultsScreen = () => {
                 if (item.desc != undefined){
                 return(
                     <View style={styles.container}>
-                    <Image style={styles.image} source={ { uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey} } />
-                    <Text>{item.desc}</Text>
-                    <TouchableOpacity onPress={()=> {onDeleteHandler(item.desc)}}>
-                        <Text>Delete</Text>
-                    </TouchableOpacity>
+                        <View style={styles.container1}>
+                            <Image style={styles.image} source={ { uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey} } />
+                            <TouchableOpacity style={styles.container2} onPress={()=> {onDeleteHandler(item.id)}}>
+                                <MaterialIcons name="delete" size={35} color="#000000" />
+                            </TouchableOpacity>
+                            
+                        </View>
+                        <View style={styles.container3}>
+                            <Text style={{flex:1,fontWeight: 'bold',}}>{item.desc}</Text>
+                        </View>                    
                     </View>
                 )
             }
@@ -73,11 +78,35 @@ const SavedResultsScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginLeft: 0
+        flex:1,
+        marginLeft: 0,
+        borderWidth:3,
+        width: '100%',
+        height: 250
+    },
+    container1:{
+        flex:9,
+        width:'100%',
+        height:'100%',
+        flexDirection: 'row',
+        borderBottomWidth:3
+    },
+    container2:{
+        width:'20%',
+        height:'100%',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    container3:{
+        flex:1,
+        flexDirection: 'row',
+        alignContent: 'space-between',
+        justifyContent:'center',
+        alignItems:'center'
     },
     image: {
-        width: 400,
-        height: 200,
+        width: '80%',
+        height: '100%',
         borderRadius: 4,
         marginBottom: 5
     },

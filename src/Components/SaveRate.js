@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { ToastAndroid } from 'react-native';
 import { set } from 'react-native-reanimated';
 import { auth } from '../firebase';
+import { Alert } from 'react-native';
+import { Input } from 'react-native-elements';
 
 const SaveRate = ({props}) => {
     const [restaurant_id, photo_reference] = props
@@ -28,6 +30,7 @@ const SaveRate = ({props}) => {
         }
 
         try {
+
             const taskRef = await setDoc(doc(db, "User", auth.currentUser.uid, instruction, task), {
                 desc: task,
                 completed: false,
