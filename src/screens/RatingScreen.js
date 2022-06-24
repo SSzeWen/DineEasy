@@ -52,16 +52,16 @@ const RatingScreen = ({route}) => {
     };
 
     const onSubmitHandler = async (instruction, rating, photo_reference) => {
-        console.log(restaurantname)
+        /*console.log(restaurantname)
         setTask(restaurantname)
         if (task.length === 0) {
             showRes('Task description cannot be empty!');
             return;
-        }
+        }*/
 
         try {
             const taskRef = await addDoc(collection(db, "User", auth.currentUser.uid, instruction), {
-                desc: task,
+                desc: restaurantname,
                 completed: false,
                 rating: rating,
                 photo_reference: photo_reference,

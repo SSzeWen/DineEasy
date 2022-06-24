@@ -15,10 +15,24 @@ const SearchScreen = () => {
     if(results1.length === 1) {
         console.log(results1)
     }
+    /*
     useEffect(()=> {
         console.log(results1)
-    },[])
-    
+    },[])*/
+    useEffect(()=> {
+        fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+            method:'POST',
+            headers: {
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'image':'tastes great'})
+          }).then(res=> {
+            return res.json()
+          }).then((response)=> {
+            console.log(response)
+          })
+    },[]);
+
 
 
     /*const filterResultsByPrice = (price) => {

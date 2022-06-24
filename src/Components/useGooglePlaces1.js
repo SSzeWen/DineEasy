@@ -30,10 +30,23 @@ async function GooglePlacesNextPage2 (token) {
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
-
-          fillthirdarray.push(res.result.url)
+          fillthirdarray.push(res.result.urls)
             return res.result.url
-        })
+        }).then((res)=>{
+          console.log("hello" + res)
+          return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+            method:'POST',
+            headers: {
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'image':res})
+          })
+        }).then(res=> {
+            return res.json()
+          }).then((response)=> {
+            console.log(response)
+          })
+        
         .catch(error => {
           setErrorMessage("Something went wrong")
           console.log(error);
@@ -126,10 +139,22 @@ function useGooglePlaces1() {
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
-
           fillthirdarray.push(res.result.url)
             return res.result.url
-        })
+        }).then((res)=>{
+          console.log("hello" + res)
+          return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+            method:'POST',
+            headers: {
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'image':res})
+          })
+        }).then(res=> {
+            return res.json()
+          }).then((response)=> {
+            console.log(response)
+          })
         .catch(error => {
           setErrorMessage("Something went wrong")
           console.log(error);

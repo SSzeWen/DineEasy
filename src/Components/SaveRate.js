@@ -22,17 +22,17 @@ const SaveRate = ({props}) => {
     };
 
     const onSubmitHandler = async (instruction) => {
-        console.log(restaurant_id)
+        /*console.log(restaurant_id)
         setTask(restaurant_id)
         if (task.length === 0) {
             showRes('Task description cannot be empty!');
             return;
-        }
+        }*/
 
         try {
 
-            const taskRef = await setDoc(doc(db, "User", auth.currentUser.uid, instruction, task), {
-                desc: task,
+            const taskRef = await setDoc(doc(db, "User", auth.currentUser.uid, instruction, restaurant_id), {
+                desc: restaurant_id,
                 completed: false,
                 photo_reference: photo_reference,
             });
