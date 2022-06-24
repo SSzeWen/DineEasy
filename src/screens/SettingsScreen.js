@@ -8,28 +8,16 @@ import { query, collection, onSnapshot, addDoc, deleteDoc, doc,setDoc } from 'fi
 import { signOut, getAuth, onAuthStateChanged} from 'firebase/auth';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import RNPickerSelect from 'react-native-picker-select';
-
-
+import {Slider} from '@miblanchard/react-native-slider';
 
 
 
 const SettingsScreen = () => {
 
     const RecPreference = async (instruction) => {
-        let name = ''
-        if (instruction == 1) {
-            name = '1 Restaurant'
-        }
-        if (instruction == 3) {
-            name = '3 Restaurant'
-        }
-        if (instruction == null) {
-            return
-        }
         try {
             const taskRef = await setDoc(doc(db, "User", auth.currentUser.uid, "Preference", "Recommended"), {
                 desc: instruction,
-                name: name,
             });
         } catch (err) {
             console.log('onSubmitHandler failure', err);
@@ -65,7 +53,7 @@ useEffect(() => {
 
         console.log([...tasks])
         setTaskList([...tasks]);
-        setPlaceholderrecommendation([...tasks][0].name)
+        setValue([...tasks][0].desc)
     });
     
 
@@ -80,24 +68,29 @@ const [selectedLanguage, setSelectedLanguage] = useState();
     }
 
     const [placeholderrecommendation, setPlaceholderrecommendation] = useState('')
-
+    const [value, setValue] = useState(1)
 
 
 
     return (
         <View style={{flex:1}}>
-            <Text>SettingsScreen</Text>
             <Spacer/>
-            <Text>Recommendation Preference</Text>
-            <RNPickerSelect
-            onValueChange={(value) => RecPreference(value)}
-            items={[
-                { label: '1 Restaurant', value: 1 },
-                { label: '3 Restaurant', value: 3 },
-            ]}
-            placeholder={{//label: "Current: " + placeholderrecommendation, value:null , color: '#9EA0A4'
-            }}
-        />
+            
+            <View style={{flex:0.2,justifyContent:'center', alignItems:'center'}}>
+            <Text style={{fontSize:15, fontWeight:'bold'}}>Recommendation Preference</Text>
+            <Slider
+                    value={value}
+                    onValueChange={value => setValue(value)}
+                    minimumValue={1}
+                    maximumValue={60}
+                    step={1}
+                    trackClickable={true}
+                    onSlidingComplete={(newvalue)=> {RecPreference(newvalue[0])}}
+                    containerStyle={{width:'90%', justifyContent:'center'}}
+                    
+            />
+            <Text style={{justifyContent:'center', alignItems:'center'}}> Recommended Restaurants: {value}</Text>
+            </View>
             <View style={styles.container}>
             </View>
             
@@ -119,7 +112,15 @@ const styles = StyleSheet.create({
 export default SettingsScreen;
 
 
+/*
+<RNPickerSelect
+            onValueChange={(value) => RecPreference(value)}
+            items={[
+                { label: '1 Restaurant', value: 1 },
+                { label: '3 Restaurant', value: 3 },
+            ]}
+            placeholder={{//label: "Current: " + placeholderrecommendation, value:null , color: '#9EA0A4'
+            }}
+            />
 
-
-
-
+*/

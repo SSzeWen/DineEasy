@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "2.2.1",
     "@react-navigation/drawer": "^6.4.1",

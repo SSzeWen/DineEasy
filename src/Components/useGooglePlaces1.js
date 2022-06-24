@@ -153,7 +153,7 @@ function useGooglePlaces1() {
         }).then(res=> {
             return res.json()
           }).then((response)=> {
-            console.log(response)
+            console.log(response.prediction)
           })
         .catch(error => {
           setErrorMessage("Something went wrong")
