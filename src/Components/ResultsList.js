@@ -7,18 +7,18 @@ const ResultsList = ({ title, results, navigation }) => {
     //console.log('RESULTSLENGTH IS CALLED ONCE')
     //console.log(results)
     //console.log('resultslength is =' + results.length)
-    if (!results.fillthisarray.length) {
+    if (!results.therealarray.length) {
         return null;
     }
     console.log('RESULTSLENGTH IS CALLED TWICE')
     useEffect(()=> {
-        console.log('resultslength is muha=' + results.fillthisarray.length)
+        console.log('resultslength is muha=' + results.therealarray.length)
     },[])
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
             <FlatList 
-                data={results.fillthisarray}
+                data={results.therealarray}
                 keyExtractor={(result) => result.id}
                 renderItem={({ item }) => {
                     return (

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import Currentlocation from "./Currentlocation";
 import { auth,db } from '../firebase';
 import { query, collection, onSnapshot, addDoc, setDoc, doc } from 'firebase/firestore';
+import { Value } from "react-native-reanimated";
 
 
 
@@ -121,8 +122,6 @@ function useGooglePlaces1() {
     //const longitude = 103.8354;
     const [latitude, longitude] = Currentlocation();
     let radMetter = 1000; // Search withing 1 KM radius
-    
-    //const [latitude, longitude] = Currentlocation();
     const [restaurantpic, setRestaurantpic] = useState('');
     const [token, setToken] = useState('');
     const [url1, setUrl1] = useState('')
@@ -132,6 +131,7 @@ function useGooglePlaces1() {
     console.log(latitude)
     console.log(longitude)
     const [numberoftimes, useNumberoftimes] = useState('false')
+    const [needupdate, setNeedupdate] = useState(false)
 
     const Restauranturl = async(id) => {
       var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url&key=' + Google_apikey
@@ -161,7 +161,7 @@ function useGooglePlaces1() {
         });
     }
     
-    const SearchApi = async(Searchterm, reset) => {
+    const SearchApi = async(Searchterm, reset, preference) => {
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&keyword=' + Searchterm +'&radius=' + radMetter + '&type=restaurant&opennow=true' + '&key=' + Google_apikey
     console.log(Searchterm);
     /*if (Searchterm !== '') {
@@ -169,9 +169,7 @@ function useGooglePlaces1() {
     }*/
     if (reset === true) {
       useNumberoftimes('false');
-      /*useEffect(()=> {
-        useNumberoftimes('false')
-      },[])*/
+      setNeedupdate(false)
     }/*
     if (fillthisarray.length >= 60) {
       for (var i = 0; i < 60; i += 1){
@@ -189,6 +187,7 @@ function useGooglePlaces1() {
       for (var i = 0; i < 60; i += 1){
         fillthisarray.pop();
         fillthirdarray.pop();
+        therealarray.pop();
       }
       useNumberoftimes('true');
         for(let googlePlace of res.results) {
@@ -250,48 +249,35 @@ function useGooglePlaces1() {
             },2000)
           })
         }).then(function(result) {
-          return
-        })/*.then(function(result) {
-            let counter = 0;
-            let count = 0;
-            console.log('fillthisarraylength = ' + fillthisarray.length)
-            /*for (var i = 0; i < fillthisarray.length; i += 1) {
-                if (i % 20 !== 0) {
-                therealarray.push(fillthisarray[i]);
+          setTimeout(()=>{
+            for (var i = 0; i !== fillthisarray.length; i += 0) {
+              let highest = fillthisarray[0].rating
+              let count = 0;
+              for (var j = 0; j < fillthisarray.length; j += 1) {
+                if (highest < fillthisarray[j].rating) {
+                  highest = fillthisarray[j].rating
+                  count = j;
                 }
-                if (i % 20 === 0) {
-                    if (fillthisarray[i] === therealarray[count]) {
-                        i += 19;
-                    }
-                    else {
-                        count = i;
-                        therealarray.push(fillthisarray[i]);
-                    }
-                }
+              }
+              therealarray.push(fillthisarray[count])
+              fillthisarray.splice(count, 1)
             }
-            therealarray.push(fillthisarray[0])
-            console.log('therealarray = ' + therealarray.length)
-            console.log(therealarray.length);
-            console.log(therealarray[therealarray.length - 1])
-        })*/
+            const counter = therealarray.length
+            for (var i = 0; i < counter - preference; i += 1) {
+              therealarray.pop()
+            }
+            console.log(therealarray)
+            setNeedupdate(true)
+          },4000)
+          return
+        })
       .catch(error => {
         setErrorMessage("Something went wrong")
         console.log(error);
       });
     }}
-/*
-    useEffect(()=> {
-      SearchApi('')
-    })
-*/
-      /*useEffect(()=> {
-        const photoreference = restaurantpic;
-        console.log('MeowMeow' + restaurantpic)
-        console.log('fillthisarray = ' + fillthisarray.length)
-        setUrl1('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + photoreference + '&key=' + Google_apikey)
-      },[restaurantpic])*/
 
-      return [SearchApi, {fillthisarray}, fillthirdarray, errorMessage]
+      return [SearchApi, {fillthisarray}, fillthirdarray, {therealarray}, errorMessage, needupdate]
 
   };
   

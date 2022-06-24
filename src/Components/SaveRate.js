@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     Savebutton: {
-        backgroundColor: '#42f548',
+        backgroundColor: '#A7DFA7',
         marginVertical: 10,
         paddingVertical: 10,
         width: '40%',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     Ratebutton: {
-        backgroundColor: '#f54275',
+        backgroundColor: '#ecbeb4',
         marginVertical: 10,
         paddingVertical: 10,
         width: '40%',
