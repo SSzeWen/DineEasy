@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import Currentlocation from "./Currentlocation";
 import { auth,db } from '../firebase';
-import { query, collection, onSnapshot, addDoc, setDoc, doc } from 'firebase/firestore';
+import { query, collection, onSnapshot, addDoc, setDoc, doc, connectFirestoreEmulator } from 'firebase/firestore';
 import { Value } from "react-native-reanimated";
 
 
@@ -15,6 +15,8 @@ let fillthisarray = [];
 let fillsecondarray = [];
 let therealarray = [];
 let fillthirdarray = [];
+let fillpreferarray = [];
+let instancecounter = 0;
 
 async function GooglePlacesNextPage2 (token) {
   const latitude = 1.4304; // you can update it with user's latitude & Longitude
@@ -26,29 +28,46 @@ async function GooglePlacesNextPage2 (token) {
     }
 
     const Restauranturl = async(id) => {
-      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url&key=' + Google_apikey
-        console.log(resurl)
+      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url%2Creview&key=' + Google_apikey
+        //console.log(resurl)
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
-          fillthirdarray.push(res.result.urls)
-            return res.result.url
-        }).then((res)=>{
+          var array = []
+          //console.log(res)
+          for (var i = 0; i < res.result.reviews.length; i += 1) {
+            //console.log(res.result.reviews[i].text)
+            array.push(res.result.reviews[i].text)
+          }
+          fillthirdarray.push(res.result.url)
+            return array
+        })/*.then((res)=>{
           console.log("hello" + res)
-          return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+          return fetch("https://dineeasy.herokuapp.com/predict", {
             method:'POST',
             headers: {
               'Content-Type':'application/json'
             },
-            body:JSON.stringify({'image':res})
+            body:JSON.stringify({'url':res})
           })
         }).then(res=> {
             return res.json()
           }).then((response)=> {
-            console.log(response)
-          })
-        
-        .catch(error => {
+            return response.Reviews
+          })*/.then(res=> {
+            //console.log(res)
+            return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+                method:'POST',
+                headers: {
+                  'Content-Type':'application/json'
+                },
+                body:JSON.stringify({'image':res})
+              })
+            }).then(response=> {
+                return response.json()
+              }).then(result=> {
+                console.log(result)
+              }).catch(error => {
           setErrorMessage("Something went wrong")
           console.log(error);
         });
@@ -91,7 +110,7 @@ async function GooglePlacesNextPage2 (token) {
           place['rating'] = googlePlace.rating
           place['image_url'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + gallery[0] + '&key=' + Google_apikey
           place['review_count'] = googlePlace.user_ratings_total
-          Restauranturl(googlePlace.place_id);
+          //Restauranturl(googlePlace.place_id);
           places.push(place);
           fillthisarray.push(place);
         }
@@ -133,49 +152,128 @@ function useGooglePlaces1() {
     const [numberoftimes, useNumberoftimes] = useState('false')
     const [needupdate, setNeedupdate] = useState(false)
 
-    const Restauranturl = async(id) => {
-      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url&key=' + Google_apikey
+
+    const Restauranturl = async(id, count, preference) => {
+      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url%2Creview&key=' + Google_apikey
         console.log(resurl)
+        const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict"]
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
+          var array = []
+          //console.log(res)
+          for (var i = 0; i < res.result.reviews.length; i += 1) {
+            //console.log(res.result.reviews[i].text)
+            array.push(res.result.reviews[i].text)
+          }
           fillthirdarray.push(res.result.url)
             return res.result.url
         }).then((res)=>{
           console.log("hello" + res)
-          return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+          let counter = count%5
+          return fetch(heroku[counter], {
             method:'POST',
             headers: {
               'Content-Type':'application/json'
             },
-            body:JSON.stringify({'image':res})
+            body:JSON.stringify({'url':res})
           })
         }).then(res=> {
             return res.json()
           }).then((response)=> {
-            console.log(response.prediction)
-          })
-        .catch(error => {
+            return response.Reviews
+          }).then(res=> {
+            console.log(res)
+            return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+                method:'POST',
+                headers: {
+                  'Content-Type':'application/json'
+                },
+                body:JSON.stringify({'image':res})
+              })
+            }).then(response=> {
+                return response.json()
+              }).then(result=> {
+                fillpreferarray.push({"id":id, "review":result.prediction})
+                console.log({"id":id, "review":result.prediction})
+                instancecounter += 1;
+                return instancecounter
+              }).then(counter=> {
+                if (counter == preference) {
+                  console.log(fillpreferarray)
+              for (var i = 0; i < preference; i += 1) {
+                let highest = 0
+                let count = 0
+                for (var j = i; j < preference; j += 1){
+                  if (highest < fillpreferarray[j].review) {
+                    highest = fillpreferarray[j].review
+                    count = j
+                  }
+                }
+                for (var j = 0; j < preference; j += 1) {
+                  if (therealarray[j].id == fillpreferarray[count].id) {
+                    const temp = therealarray[i]
+                    const temp1 = fillpreferarray[i]
+                    therealarray[i] = therealarray[j]
+                    fillpreferarray[i] = fillpreferarray[count]
+                    therealarray[j] = temp
+                    fillpreferarray[count] = temp1
+                    j = preference
+                    console.log(fillpreferarray)
+                  }
+                }
+              }
+              setTimeout(()=> {
+                setNeedupdate(true)
+              },1000)                  
+                }
+              }).catch(error => {
           setErrorMessage("Something went wrong")
           console.log(error);
         });
     }
+
+   /* const Restauranturl = async(id) => {
+      var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url%2Creview&key=' + Google_apikey
+        console.log(resurl)
+        await fetch(resurl).then(res=> {
+            return res.json()
+        }).then(res=> {
+          var array = []
+          //console.log(res)
+          for (var i = 0; i < res.result.reviews.length; i += 1) {
+            //console.log(res.result.reviews[i].text)
+            array.push(res.result.reviews[i].text)
+          }
+          fillthirdarray.push(res.result.url)
+            return array
+        }).then(res=> {
+            return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+                method:'POST',
+                headers: {
+                  'Content-Type':'application/json'
+                },
+                body:JSON.stringify({'image':res})
+              })
+            }).then(response=> {
+                return response.json()
+              }).then(result=> {
+                fillpreferarray.push({"id":id, "review":result.prediction})
+                console.log({"id":id, "review":result.prediction})
+              }).catch(error => {
+          setErrorMessage("Something went wrong")
+          console.log(error);
+        });
+    }*/
     
+
     const SearchApi = async(Searchterm, reset, preference) => {
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&keyword=' + Searchterm +'&radius=' + radMetter + '&type=restaurant&opennow=true' + '&key=' + Google_apikey
     console.log(Searchterm);
-    /*if (Searchterm !== '') {
-      useNumberoftimes('false')
-    }*/
     if (reset === true) {
       useNumberoftimes('false');
       setNeedupdate(false)
-    }/*
-    if (fillthisarray.length >= 60) {
-      for (var i = 0; i < 60; i += 1){
-        fillthisarray.pop();
-      }
-    }*/
+    }
     if((numberoftimes === 'false' || reset === true) && latitude !== 1 && longitude !== 1) {
     console.log(url)
     await fetch(url)
@@ -188,6 +286,8 @@ function useGooglePlaces1() {
         fillthisarray.pop();
         fillthirdarray.pop();
         therealarray.pop();
+        fillpreferarray.pop();
+        instancecounter = 0;
       }
       useNumberoftimes('true');
         for(let googlePlace of res.results) {
@@ -217,7 +317,7 @@ function useGooglePlaces1() {
           place['rating'] = googlePlace.rating
           place['image_url'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + gallery[0] + '&key=' + Google_apikey
           place['review_count'] = googlePlace.user_ratings_total 
-          Restauranturl(googlePlace.place_id)
+          //Restauranturl(googlePlace.place_id)
           places.push(place);
           fillthisarray.push(place);
         }
@@ -249,7 +349,14 @@ function useGooglePlaces1() {
             },2000)
           })
         }).then(function(result) {
-          setTimeout(()=>{
+          
+            setTimeout(()=>{
+            let counts = 0;
+            for (var i = 0; i < fillthisarray.length; i += 1) {
+              if (fillthisarray[i].review_count < 10){
+                fillthisarray[i].rating = 0;
+              }
+            }
             for (var i = 0; i !== fillthisarray.length; i += 0) {
               let highest = fillthisarray[0].rating
               let count = 0;
@@ -263,12 +370,18 @@ function useGooglePlaces1() {
               fillthisarray.splice(count, 1)
             }
             const counter = therealarray.length
+            if (counter < preference) {
+              preference = counter
+            }          
+            
             for (var i = 0; i < counter - preference; i += 1) {
               therealarray.pop()
+            }         
+
+            for (var i = 0; i < preference; i += 1) {
+              Restauranturl(therealarray[i].id, i, preference)
             }
-            console.log(therealarray)
-            setNeedupdate(true)
-          },4000)
+          },2000)
           return
         })
       .catch(error => {

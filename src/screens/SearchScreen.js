@@ -31,6 +31,11 @@ const SearchScreen = () => {
                 tasks.push({ id: doc.id, ...doc.data() });
             });
             console.log([...tasks])
+            console.log(tasks)
+            if (tasks.length == 0) {
+                tasks.push({"desc": 5})
+            }
+            console.log(tasks)
             setValue([...tasks][0].desc)
            /* if (needupdate === true) {
                 setResults3(results2)

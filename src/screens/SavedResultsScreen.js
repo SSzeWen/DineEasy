@@ -80,7 +80,11 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         marginLeft: 0,
-        borderWidth:3,
+        borderTopWidth:3,
+        borderLeftWidth:3,
+        borderRightWidth:3,
+        borderBottomWidth:1.5,
+        borderColor: '#A7DFA7',
         width: '100%',
         height: 250
     },
@@ -89,7 +93,8 @@ const styles = StyleSheet.create({
         width:'100%',
         height:'100%',
         flexDirection: 'row',
-        borderBottomWidth:3
+        borderBottomWidth:3,
+        borderColor:'#A7DFA7'
     },
     container2:{
         width:'20%',
