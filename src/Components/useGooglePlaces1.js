@@ -153,7 +153,7 @@ function useGooglePlaces1() {
     const [needupdate, setNeedupdate] = useState(false)
 
 
-    const Restauranturl = async(id, count, preference) => {
+    const Restauranturl = async(id, count, preference, preference1) => {
       var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url%2Creview&key=' + Google_apikey
         console.log(resurl)
         const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict"]
@@ -201,18 +201,18 @@ function useGooglePlaces1() {
                 instancecounter += 1;
                 return instancecounter
               }).then(counter=> {
-                if (counter == preference) {
+                if (counter == preference1) {
                   console.log(fillpreferarray)
-              for (var i = 0; i < preference; i += 1) {
+              for (var i = 0; i < preference1; i += 1) {
                 let highest = 0
                 let count = 0
-                for (var j = i; j < preference; j += 1){
+                for (var j = i; j < preference1; j += 1){
                   if (highest < fillpreferarray[j].review) {
                     highest = fillpreferarray[j].review
                     count = j
                   }
                 }
-                for (var j = 0; j < preference; j += 1) {
+                for (var j = 0; j < preference1; j += 1) {
                   if (therealarray[j].id == fillpreferarray[count].id) {
                     const temp = therealarray[i]
                     const temp1 = fillpreferarray[i]
@@ -221,10 +221,13 @@ function useGooglePlaces1() {
                     therealarray[j] = temp
                     fillpreferarray[count] = temp1
                     therealarray[i]['score'] = fillpreferarray[i].review
-                    j = preference
+                    j = preference1
                     //console.log(therealarray)
                   }
                 }
+              }
+              for (var i = 0; i < preference1-preference; i += 1) {
+                therealarray.pop();
               }
               setTimeout(()=> {
                 setNeedupdate(true)
@@ -373,16 +376,17 @@ function useGooglePlaces1() {
               fillthisarray.splice(count, 1)
             }
             const counter = therealarray.length
-            if (counter < preference) {
-              preference = counter
+            let preference1 = 5;
+            if (counter < preference1) {
+              preference1 = counter
             }          
             
-            for (var i = 0; i < counter - preference; i += 1) {
+            for (var i = 0; i < counter - preference1; i += 1) {
               therealarray.pop()
             }         
 
-            for (var i = 0; i < preference; i += 1) {
-              Restauranturl(therealarray[i].id, i, preference)
+            for (var i = 0; i < preference1; i += 1) {
+              Restauranturl(therealarray[i].id, i, preference, preference1)
             }
           },2000)
           return
