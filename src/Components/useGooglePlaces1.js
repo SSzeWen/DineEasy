@@ -392,7 +392,7 @@ function useGooglePlaces1() {
           return
         })
       .catch(error => {
-        setErrorMessage("Something went wrong")
+        setErrorMessage({"error":true})
         console.log(error);
       });
     }}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import ResultsDetail from './ResultsDetail';
 import * as RootNavigation from '../RootNavigation'
+import Spacer from './Spacer';
 
 const ResultsList = ({ title, results, navigation }) => {
     //console.log('RESULTSLENGTH IS CALLED ONCE')
@@ -28,6 +29,7 @@ const ResultsList = ({ title, results, navigation }) => {
                     );
                 }}
             />
+            
         </View>
     );
 }
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     container : {
-        marginBottom: 10
+        marginBottom: '32%'
         
     }
 });

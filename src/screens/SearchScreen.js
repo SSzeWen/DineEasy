@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
 import SearchBar from '../Components/SearchBar';
 import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
@@ -8,6 +8,7 @@ import useGooglePlaces1 from '../Components/useGooglePlaces1';
 import { query, collection, onSnapshot, addDoc, deleteDoc, doc,setDoc } from 'firebase/firestore';
 import { signOut, getAuth, onAuthStateChanged} from 'firebase/auth';
 import { auth, db } from '../firebase';
+import Spacer from '../Components/Spacer';
 
 const SearchScreen = () => {
     const [term, setTerm] = useState('');
@@ -15,11 +16,9 @@ const SearchScreen = () => {
     //const [searchApi, results, errorMessage] = useResults();
     const [searchApi, results, results1, results2, errorMessage, needupdate] = useGooglePlaces1();
     const [results3, setResults3] = useState(results2)
-    //console.log(results)
     console.log('lengthofarray= '+ results.fillthisarray.length)
-    let bestarray = [];
-    
 
+    
     useEffect(() => {
         // Expensive operation. Consider your app's design on when to invoke this.
         // Could use Redux to help on first application load.
@@ -47,6 +46,14 @@ const SearchScreen = () => {
         return unsubscribe
     }, []);
 
+    const ErrorToast = () => {
+        ToastAndroid.show(
+            'No Search Results Near You',
+            ToastAndroid.SHORT
+        );
+        errorMessage.error = false
+    };
+
     return (
         <View style = {{ flex: 1}}>
             <SearchBar 
@@ -54,11 +61,12 @@ const SearchScreen = () => {
                 onTermChange={setTerm}
                 onTermSubmit={() => searchApi(term, true, value)}
                 />
-            {errorMessage? <Text>{errorMessage}LOADING</Text> : null}
+            {errorMessage.error? ErrorToast() : null}
                 <ResultsList 
                     results={results3} 
                     title="All results" 
                 />
+                
         </View>
         
     );
