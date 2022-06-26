@@ -218,8 +218,9 @@ function useGooglePlaces1() {
                     fillpreferarray[i] = fillpreferarray[count]
                     therealarray[j] = temp
                     fillpreferarray[count] = temp1
+                    therealarray[i]['score'] = fillpreferarray[i].review
                     j = preference
-                    console.log(fillpreferarray)
+                    console.log(therealarray)
                   }
                 }
               }
