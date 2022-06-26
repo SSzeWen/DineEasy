@@ -157,6 +157,7 @@ function useGooglePlaces1() {
       var resurl =  'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + id + '&fields=url%2Creview&key=' + Google_apikey
         console.log(resurl)
         const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict"]
+        const cloud = ["https://jsonfile-27joodiwra-uc.a.run.app/predict", "https://jsonfile1-27joodiwra-uc.a.run.app/predict"]
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
@@ -184,7 +185,8 @@ function useGooglePlaces1() {
             return response.Reviews
           }).then(res=> {
             console.log(res)
-            return fetch("https://jsonfile-27joodiwra-uc.a.run.app/predict", {
+            let counter1 = count%2
+            return fetch(cloud[0], {
                 method:'POST',
                 headers: {
                   'Content-Type':'application/json'
@@ -220,7 +222,7 @@ function useGooglePlaces1() {
                     fillpreferarray[count] = temp1
                     therealarray[i]['score'] = fillpreferarray[i].review
                     j = preference
-                    console.log(therealarray)
+                    //console.log(therealarray)
                   }
                 }
               }
