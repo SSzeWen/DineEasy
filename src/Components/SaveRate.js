@@ -13,7 +13,13 @@ import { Alert } from 'react-native';
 import { Input } from 'react-native-elements';
 
 const SaveRate = ({props}) => {
-    const [restaurant_id, photo_reference] = props
+    const result = props
+    const photo_reference = result.result.photos[0].photo_reference
+    const restaurant_id = result.result.name
+    const score = result.score
+    const sentence = result.sentence
+    console.log(result)
+    
     const [task, setTask] = useState('');
     const [taskList, setTaskList] = useState([]);
 
@@ -35,6 +41,9 @@ const SaveRate = ({props}) => {
                 desc: restaurant_id,
                 completed: false,
                 photo_reference: photo_reference,
+                score: score,
+                sentence: sentence
+
             });
 
             //console.log('onSubmitHandler success', taskRef.id);
@@ -54,7 +63,7 @@ const SaveRate = ({props}) => {
                 <Text style={{fontSize:20}}>Save</Text>
             </Pressable>
             <Pressable style={styles.Ratebutton}
-                onPress={()=> RootNavigation.navigate("Rating", {restaurant_id, photo_reference})}
+                onPress={()=> RootNavigation.navigate("Rating", {restaurant_id, photo_reference, score, sentence})}
                 android_ripple={{ color: '#FFF' }}>
                 <Text style={{fontSize:20}}>Rate</Text>
             </Pressable>                         

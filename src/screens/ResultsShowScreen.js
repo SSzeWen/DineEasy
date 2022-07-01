@@ -7,9 +7,12 @@ import SaveRate from '../Components/SaveRate';
 
 const ResultShowScreen = ({ route }) => {
     const [result, setResult] = useState(null);
-    const {id} = route.params;
+    const id = route.params.id;
+    const score = route.params.rating
+    const sentence = route.params.sentence
+    
     console.log(route)
-    console.log(id)
+    //console.log(id)
     
     //console.log(result.location.address1);
 
@@ -26,8 +29,11 @@ const ResultShowScreen = ({ route }) => {
         await fetch(url).then(res=> {
             return res.json()
         }).then(res=> {
+            res['score'] = score
+            res['sentence'] = sentence
             setResult(res)
-            console.log(res)
+
+            //console.log(res)
         })
     }
     useEffect(()=> {
@@ -49,7 +55,7 @@ const ResultShowScreen = ({ route }) => {
                     console.log(item)
                     return <Image style={styles.image} source={{ uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey}} />
                 }} />
-            <SaveRate props={[result.result.name, result.result.photos[0].photo_reference]}/>
+            <SaveRate props={result}/>
         </View>
     );
 };

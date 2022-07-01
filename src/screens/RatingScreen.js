@@ -7,9 +7,11 @@ import * as RootNavigation from '../RootNavigation'
 
 
 const RatingScreen = ({route}) => {
-    
+  console.log(route)
     const restaurantname = route.params.restaurant_id
     const photo_reference = route.params.photo_reference
+    const score = route.params.score
+    const sentence = route.params.sentence
     // To set the default Star Selected
     const [defaultRating, setDefaultRating] = useState(2);
     const [task, setTask] = useState('');
@@ -65,6 +67,8 @@ const RatingScreen = ({route}) => {
                 completed: false,
                 rating: rating,
                 photo_reference: photo_reference,
+                score: score,
+                sentence: sentence
             });
 
             console.log('onSubmitHandler success', taskRef.id);
