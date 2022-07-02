@@ -7,7 +7,7 @@ const ResultsDetail = ({ result }) => {
         <View style={styles.container}>
             <Image style={styles.image} source={{ uri: result.image_url }} />
             <Text style={styles.name}>{result.placeName}</Text>
-            <Text>Rating: {Math.round(result.score)} , {result.review_count} Reviews</Text>
+            <Text>Rating: {Math.round(result.score)} , {result.review_count} Reviews, {result.distancetext} </Text>
         </View>
     );
 };

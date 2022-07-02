@@ -19,10 +19,21 @@ let fillthirdarray = [];
 let fillpreferarray = [];
 let fillreviewarray = [];
 let instancecounter = 0;
-function updateState(text){
-  this.setState({text})
-}
+let filldistancecounter = [];
 
+
+function distancecalculator(destination, longitude, latitude) {
+  const distanceurl = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + latitude + "%2C" + longitude + '&destinations=place_id:' + destination + '&key=' + Google_apikey
+  fetch(distanceurl).then(res => res.json())
+  .then(response=>{
+    response.rows[0].elements[0].distance['id'] = destination
+    console.log(response.rows[0].elements[0].distance)
+    filldistancecounter.push(response.rows[0].elements[0].distance)
+  }).catch(error=> {
+    console.log(error)
+  })
+
+}
 function restauranturl1(id,count, preference, needupdate, resurl) {
   const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict",
         "https://dineeasy-4.herokuapp.com/predict","https://dineeasy-5.herokuapp.com/predict","https://dineeasy-6.herokuapp.com/predict","https://dineeasy-7.herokuapp.com/predict","https://dineeasy-8.herokuapp.com/predict",
@@ -105,6 +116,24 @@ function restauranturl1(id,count, preference, needupdate, resurl) {
                 }
               }
             }
+            for (var i = 0; i < therealarray.length; i += 1) {
+              for (var j = 0; j < therealarray.length;j += 1) {
+                if (fillreviewarray[j].id == therealarray[i].id) {
+                  therealarray[i]['sentences'] = fillreviewarray[j].sentence
+                  j = 60
+                }
+              }
+            }
+            for (var i = 0; i < therealarray.length; i += 1) {
+              for (var j = 0; j < therealarray.length;j += 1) {
+                if (filldistancecounter[j].id == therealarray[i].id) {
+                  therealarray[i]['distancetext'] = filldistancecounter[j].text
+                  therealarray[i]['distance'] = filldistancecounter[j].value/1000
+                  j = 60
+                }
+              }
+            }
+            
             for (var i = 0; i < fillpreferarray.length-preference; i += 1) {
               therealarray.pop();
             }
@@ -213,6 +242,23 @@ async function GooglePlacesNextPage2 (token, preference, needupdate) {
                   }
                 }
               }
+              for (var i = 0; i < therealarray.length; i += 1) {
+                for (var j = 0; j < therealarray.length;j += 1) {
+                  if (fillreviewarray[j].id == therealarray[i].id) {
+                    therealarray[i]['sentences'] = fillreviewarray[j].sentence
+                    j = 60
+                  }
+                }
+              }
+              for (var i = 0; i < therealarray.length; i += 1) {
+                for (var j = 0; j < therealarray.length;j += 1) {
+                  if (filldistancecounter[j].id == therealarray[i].id) {
+                    therealarray[i]['distancetext'] = filldistancecounter[j].text
+                    therealarray[i]['distance'] = filldistancecounter[j].value/1000
+                    j = 60
+                  }
+                }
+              }
               for (var i = 0; i < fillpreferarray.length-preference; i += 1) {
                 therealarray.pop();
               }
@@ -251,6 +297,7 @@ async function GooglePlacesNextPage2 (token, preference, needupdate) {
             latitude: lat,
             longitude: lng,
           }
+          distancecalculator(googlePlace.place_id, longitude, latitude)
 
           var gallery = []
 
@@ -337,7 +384,7 @@ function useGooglePlaces1() {
             return res.result.url
         }).then((res)=>{
           console.log("hello" + res)
-          let counter = count%10
+          let counter = count%15
           return fetch(heroku[counter], {
             method:'POST',
             headers: {
@@ -406,6 +453,15 @@ function useGooglePlaces1() {
                 for (var j = 0; j < therealarray.length;j += 1) {
                   if (fillreviewarray[j].id == therealarray[i].id) {
                     therealarray[i]['sentences'] = fillreviewarray[j].sentence
+                    j = 60
+                  }
+                }
+              }
+              for (var i = 0; i < therealarray.length; i += 1) {
+                for (var j = 0; j < therealarray.length;j += 1) {
+                  if (filldistancecounter[j].id == therealarray[i].id) {
+                    therealarray[i]['distancetext'] = filldistancecounter[j].text
+                    therealarray[i]['distance'] = filldistancecounter[j].value/1000
                     j = 60
                   }
                 }
@@ -481,6 +537,7 @@ function useGooglePlaces1() {
         therealarray.pop();
         fillpreferarray.pop();
         instancecounter = 0;
+        filldistancecounter.pop();
       }
       useNumberoftimes('true');
       var count = 0;
@@ -492,6 +549,7 @@ function useGooglePlaces1() {
             latitude: lat,
             longitude: lng,
           }
+          distancecalculator(googlePlace.place_id, longitude, latitude)
 
           var gallery = []
 
@@ -530,7 +588,7 @@ function useGooglePlaces1() {
           }
         }
         fillsecondarray.push(res.next_page_token);
-        //setRestaurantpic(places[digit].gallery[0]);
+        setRestaurantpic(places[digit].gallery[0]);
         //setToken(res.next_page_token);
         return res.next_page_token
                

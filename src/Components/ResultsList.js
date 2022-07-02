@@ -6,7 +6,7 @@ import Spacer from './Spacer';
 
 const ResultsList = ({ title, results, navigation }) => {
     //console.log('RESULTSLENGTH IS CALLED ONCE')
-    //console.log(results)
+    console.log(results)
     //console.log('resultslength is =' + results.length)
     if (!results.therealarray.length) {
         return null;
@@ -23,7 +23,7 @@ const ResultsList = ({ title, results, navigation }) => {
                 keyExtractor={(result) => result.id}
                 renderItem={({ item }) => {
                     return (
-                    <TouchableOpacity onPress={() => RootNavigation.navigate("ResultsShow", { id: item.id, rating:item.score, sentence:item.sentences })}>
+                    <TouchableOpacity onPress={() => RootNavigation.navigate("ResultsShow", { id: item.id, rating:item.score, sentence:item.sentences, coordinate:item.coordinate })}>
                         <ResultsDetail result={item} />
                     </TouchableOpacity>
                     );
