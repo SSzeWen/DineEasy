@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native';
 import SearchBar from '../Components/SearchBar';
 import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
@@ -8,8 +8,8 @@ import useGooglePlaces1 from '../Components/useGooglePlaces1';
 import { query, collection, onSnapshot, addDoc, deleteDoc, doc,setDoc } from 'firebase/firestore';
 import { signOut, getAuth, onAuthStateChanged} from 'firebase/auth';
 import { auth, db } from '../firebase';
+import DropDownPicker from 'react-native-dropdown-picker';
 import Spacer from '../Components/Spacer';
-import RNPickerSelect from 'react-native-picker-select';
 
 let filterarray = [];
 
@@ -18,13 +18,24 @@ const filterprice = () => {
 }
 
 const SearchScreen = () => {
+    let updater = true
     const [term, setTerm] = useState('');
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(0);
+    const [isloading, setIsloading] = useState(false)
     //const [searchApi, results, errorMessage] = useResults();
     const [searchApi, results, results1, results2, errorMessage, needupdate] = useGooglePlaces1();
     const [results3, setResults3] = useState(results2)
     const [sentences, setSentences] = useState('')
+    const [open, setOpen] = useState(false);
+    const [value1, setValue1] = useState([]);
+    const [items, setItems] = useState([
+        { label: '$', value: 1 },
+        { label: '$$', value: 2 },
+        { label: '$$$', value: 3 },
+        { label: '$$$$', value: 4 },
+    ]);
     console.log('lengthofarray= '+ results.fillthisarray.length)
+   
 
     const ratedsentencefilter = (ratedsentence) => {
         const url = "https://sentences-27joodiwra-uc.a.run.app/filter"
@@ -48,8 +59,13 @@ const SearchScreen = () => {
         })
       }
     
-    useEffect(() => {
-        
+    useEffect(()=> {
+        if (needupdate == true) {
+            setIsloading(false)
+        }
+    }, [needupdate])
+
+    useEffect(() => {     
 
         // Expensive operation. Consider your app's design on when to invoke this.
         // Could use Redux to help on first application load.
@@ -102,13 +118,24 @@ const SearchScreen = () => {
         errorMessage.error = false
     };
 
+    const ShowActivity = () => {
+        searchApi(term, true, value, sentences)
+        setIsloading(true)
+    }
+
     return (
         <View style = {{ flex: 1}}>
-            <SearchBar 
+            <SearchBar
                 term={term} 
                 onTermChange={setTerm}
-                onTermSubmit={() => searchApi(term, true, value, sentences)}
+                onTermSubmit={() => ShowActivity()}
                 />
+                {isloading?
+                <View style={{justifyContent:'center'}}>
+                    <ActivityIndicator size="small" color="#0000ff" />
+                </View>
+                : null}
+            
             
             {errorMessage.error? ErrorToast() : null}
                 <ResultsList 
@@ -139,4 +166,18 @@ export default SearchScreen;
             ]}
             placeholder={{//label: "Current: " + placeholderrecommendation, value:null , color: '#9EA0A4'
             }}
+            />*/
+/*
+            <DropDownPicker
+            multiple={true}
+            min={0}
+            max={5}
+            open={open}
+            value={value1}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue1}
+            setItems={setItems}
+            containerStyle={{width:'30%', marginLeft:'5%'}}
+            placeholder={'Price'}
             />*/
