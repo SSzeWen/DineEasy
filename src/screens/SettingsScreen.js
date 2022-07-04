@@ -82,7 +82,7 @@ const [selectedLanguage, setSelectedLanguage] = useState();
                     value={value}
                     onValueChange={value => setValue(value)}
                     minimumValue={1}
-                    maximumValue={5}
+                    maximumValue={30}
                     step={1}
                     trackClickable={true}
                     onSlidingComplete={(newvalue)=> {RecPreference(newvalue[0])}}

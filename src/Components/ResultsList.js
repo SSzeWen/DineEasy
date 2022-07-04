@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import ResultsDetail from './ResultsDetail';
 import * as RootNavigation from '../RootNavigation'
-import Spacer from './Spacer';
+
+
 
 const ResultsList = ({ title, results, navigation }) => {
     //console.log('RESULTSLENGTH IS CALLED ONCE')
-    console.log(results)
+    //console.log(results)
     //console.log('resultslength is =' + results.length)
     if (!results.therealarray.length) {
         return null;
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     container : {
-        marginBottom: '32%'
+        marginBottom: '28%'
         
     }
 });

@@ -37,8 +37,8 @@ const SignupScreen = ({ navigation }) => {
     };
 
     const onSubmitHandler = async (id) => {
-            const rateRef = await setDoc(doc(db, "User", id, "Rated Restaurants", id),{});
-            const saveRef = await setDoc(doc(db, "User", id, "Saved Restaurants", id),{});
+            //const rateRef = await setDoc(doc(db, "User", id, "Rated Restaurants", id),{});
+            //const saveRef = await setDoc(doc(db, "User", id, "Saved Restaurants", id),{});
             RecPreference(5)
     }
         

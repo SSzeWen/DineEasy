@@ -43,7 +43,7 @@ const ResultShowScreen = ({ route }) => {
         getResult(id);
     }, []);
 
-    console.log(result)
+    //console.log(result)
     if (!result) {
         return null;
     } // not impt also not sure and line 26 also
