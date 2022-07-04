@@ -66,8 +66,10 @@ const ResultsDetail = ({ result }) => {
             </View>
             <View style={styles.bundle}>
             <AntDesign name="star" size={17} color="#F637EC" />
-            <Text style={styles.name}> {Math.round(result.score)}  
-            </Text>
+            {result.score==-1?
+            <Text style={styles.name}> No Rating
+            </Text>:<Text style={styles.name}> {Math.round(result.score)}
+            </Text>}
             <Text> ({result.review_count} Reviews) </Text>
             {result.recommend? <Recommendstar result={result}/> : null}
             <Text> </Text>

@@ -724,6 +724,7 @@ function useGooglePlaces1() {
         })*/
       .catch(error => {
         setErrorMessage({"error":true})
+        setNeedupdate(true)
         console.log(error);
       });
     }}

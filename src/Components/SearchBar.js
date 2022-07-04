@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'; 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
     return (
-        <View style={styles.backgroundStyle}>
+
+            <View style={styles.backgroundStyle}>
             <Feather name='search' style={styles.iconStyle}/>
             <TextInput 
                 autoCapitalize='none'
@@ -16,11 +19,15 @@ const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
                 onEndEditing={onTermSubmit}
             />
         </View>
+
+        
+        
     );
 };
 
 const styles = StyleSheet.create({
     backgroundStyle: {
+        flex:9,
         marginTop: 10,
         backgroundColor: '#F0EEEE',
         height: 50,

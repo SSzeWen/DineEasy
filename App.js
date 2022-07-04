@@ -18,6 +18,7 @@ import { LogBox } from 'react-native'
 import useGooglePlaces1 from './src/Components/useGooglePlaces1';
 import RatingScreen from './src/screens/RatingScreen';
 import DirectionScreen from './src/screens/DirectionScreen'
+import FilterScreen from './src/screens/FilterScreen'
 
 //LogBox.ignoreLogs(["Warning: AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage"]);
 LogBox.ignoreAllLogs();
@@ -62,6 +63,7 @@ const RestaurantFlow = () => {
       <Stack.Screen component={ResultShowScreen} name="ResultsShow" />
       <Stack.Screen component={RatingScreen} name="Rating"/>
       <Stack.Screen component={DirectionScreen} name='DirectionsAPI'/>
+      <Stack.Screen component={FilterScreen} name = 'Filter'/>
     </Stack.Navigator>
   )
 }
