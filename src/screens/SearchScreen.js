@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Button } from 'react-native';
 import SearchBar from '../Components/SearchBar';
 import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
@@ -9,15 +9,17 @@ import { query, collection, onSnapshot, addDoc, deleteDoc, doc,setDoc } from 'fi
 import { signOut, getAuth, onAuthStateChanged} from 'firebase/auth';
 import { auth, db } from '../firebase';
 import Spacer from '../Components/Spacer';
-import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import Filter from '../Components/filter'; 
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { color } from 'react-native-reanimated';
 
 
 let filterarray = [];
 let sortarray = []
 let filtered = null
 
-const SearchScreen = ({route}) => {
+const SearchScreen = ({route, navigation}) => {
 
     const filterprice = (distancefilter, pricefilter, sort, results) => {
         for (var i = 0; i < 60; i += 1) {
@@ -112,10 +114,10 @@ const SearchScreen = ({route}) => {
             setIsloading(false)
         }
     }, [needupdate])
-
+    /*
     useEffect(()=> {
         setFilterupdate(filterupdate+1)
-    }, [route.params])
+    }, [route.params])*/
 
     useEffect(()=> {
         if (filtered !== null) {
@@ -167,9 +169,6 @@ const SearchScreen = ({route}) => {
             ratedsentencefilter(array)
             }
         })
-            
-
-
         return (unsubscribe, unsubscribe1)
     }, []);
 
@@ -188,6 +187,20 @@ const SearchScreen = ({route}) => {
 
     return (
         <View style = {{flex: 1}}>
+            <View style={{ height:32, backgroundColor:'#fff'}}>
+            </View>
+            <View style = {styles.header}>
+                <View style = {styles.icon}>
+                    <TouchableOpacity onPress={()=> navigation.openDrawer()}>
+                        <Feather name="menu" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text style={styles.headerText}>
+                        Home
+                    </Text>
+                </View>
+            </View>
             <View style = {{flexDirection:'row'}}>
                 <SearchBar
                     term={term} 
@@ -195,8 +208,6 @@ const SearchScreen = ({route}) => {
                     onTermSubmit={() => ShowActivity()}
                     />
                     {route.params==undefined? <Filter undefined={true}/>: <Filter undefined={false} distancefilter={route.params.distancefilter} pricefilter={route.params.pricefilter} sort={route.params.sort}/>}
-
-                
             </View>
                 {isloading?
                 <View style={{justifyContent:'center', alignContent:'center', alignItems:'center'}}>
@@ -220,7 +231,30 @@ const SearchScreen = ({route}) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection:'row'
+    },
+    header: {
+        width: '100%',
+        flexDirection: 'row',
+        backgroundColor: '#fff'
+    },
+    headerText: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        justifyContent: 'center',
+        marginLeft:6
+        
+    },
+    icon: {
+        justifyContent:'space-around', 
+        borderWidth:15, 
+        borderColor:'white'
+    },
+    textContainer: {
+        justifyContent:'center', 
+        borderWidth:10, 
+        borderColor:'white'
     }
+
 });
 
 export default SearchScreen;

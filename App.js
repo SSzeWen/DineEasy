@@ -59,7 +59,7 @@ const AppStack = createNativeStackNavigator();
 const RestaurantFlow = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen component={SearchScreen} name="Search" />
+      <Stack.Screen component={SearchScreen} name="Search" options={{ headerShown: false }}/>
       <Stack.Screen component={ResultShowScreen} name="ResultsShow" />
       <Stack.Screen component={RatingScreen} name="Rating"/>
       <Stack.Screen component={DirectionScreen} name='DirectionsAPI'/>
@@ -72,7 +72,7 @@ const RestaurantFlow = () => {
 const Main = () => {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={RestaurantFlow} />
+      <Drawer.Screen name="Home" component={RestaurantFlow} options={{ headerShown: false }}/>
       <Drawer.Screen name="Saved Restaurants" component={SavedResultsScreen} />
       <Drawer.Screen name="Rated Restaurants" component={RatedResultsScreen} />
       <Drawer.Screen name="Settings" component={SettingsScreen} />
@@ -92,7 +92,7 @@ const Auth = () => {
 const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
-      <AppStack.Navigator screenOptions={{ headerShown: false }}>
+      <AppStack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
         <AppStack.Screen name="Auth" component={Auth} />
         <AppStack.Screen name="Main" component={Main} />
       </AppStack.Navigator>
