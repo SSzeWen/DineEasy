@@ -7,6 +7,16 @@ import * as RootNavigation from '../RootNavigation'
 
 
 const RatingScreen = ({route}) => {
+  const getCurrentDate=()=>{
+
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+
+    //Alert.alert(date + '-' + month + '-' + year);
+    // You can turn it in to your desired format
+    return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+}
   console.log(route)
     const restaurantname = route.params.restaurant_id
     const photo_reference = route.params.photo_reference
@@ -68,7 +78,8 @@ const RatingScreen = ({route}) => {
                 rating: rating,
                 photo_reference: photo_reference,
                 score: score,
-                sentence: sentence
+                sentence: sentence,
+                time: getCurrentDate()
             });
 
             console.log('onSubmitHandler success', taskRef.id);

@@ -23,6 +23,17 @@ const SaveRate = ({props}) => {
     const [task, setTask] = useState('');
     const [taskList, setTaskList] = useState([]);
 
+    const getCurrentDate=()=>{
+
+        var date = new Date().getDate();
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
+    
+        //Alert.alert(date + '-' + month + '-' + year);
+        // You can turn it in to your desired format
+        return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+    }
+
     const showRes = (text) => {
         ToastAndroid.show(text, ToastAndroid.SHORT);
     };
@@ -42,7 +53,8 @@ const SaveRate = ({props}) => {
                 completed: false,
                 photo_reference: photo_reference,
                 score: score,
-                sentence: sentence
+                sentence: sentence,
+                time: getCurrentDate(),
 
             });
 
