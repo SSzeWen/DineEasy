@@ -21,7 +21,36 @@ let filtered = null
 
 const SearchScreen = ({route, navigation}) => {
 
-    const filterprice = (distancefilter, pricefilter, sort, results) => {
+    
+    
+    let updater = true
+    const [term, setTerm] = useState('');
+    const [value, setValue] = useState(0);
+    const [isloading, setIsloading] = useState(false)
+    //const [searchApi, results, errorMessage] = useResults();
+    const [searchApi, results, results1, results2, errorMessage, needupdate] = useGooglePlaces1();
+    const [results3, setResults3] = useState(results2)
+    const [sentences, setSentences] = useState('')
+    const [open, setOpen] = useState(false);
+    const [value1, setValue1] = useState([]);
+    const [items, setItems] = useState([
+        { label: '$', value: 1 },
+        { label: '$$', value: 2 },
+        { label: '$$$', value: 3 },
+        { label: '$$$$', value: 4 },
+    ]);
+    const [filterupdate, setFilterupdate] = useState(0)
+
+    const price = (preference, results) => {
+        var places = []
+        for (var i = 0;(i < preference && i <results.therealarray.length);i += 1) {
+            places.push(results.therealarray[i])
+        }
+        
+        return places
+    }
+
+    const filterprice = (distancefilter, pricefilter, sort, results, preference) => {
         for (var i = 0; i < 60; i += 1) {
             filterarray.pop()
         }
@@ -37,7 +66,6 @@ const SearchScreen = ({route, navigation}) => {
         console.log("hello1")
         console.log(filterarray)
         if (sort == false) {
-            
             for (var i = 0; i < filterarray.length;i += 1) {
                 let closest = 100
                 let count = i;
@@ -58,32 +86,18 @@ const SearchScreen = ({route, navigation}) => {
                 
             }
         }
-        return filterarray
+        console.log('myfkingnameis =' + preference)
+        var places = []
+        for (var i = 0; (i < preference && i <filterarray.length);i += 1) {
+            places.push(filterarray[i])
+        }
+        
+        return places
     }
 
-    
-    let updater = true
-    const [term, setTerm] = useState('');
-    const [value, setValue] = useState(0);
-    const [isloading, setIsloading] = useState(false)
-    //const [searchApi, results, errorMessage] = useResults();
-    const [searchApi, results, results1, results2, errorMessage, needupdate] = useGooglePlaces1();
-    const [results3, setResults3] = useState(results2)
-    const [sentences, setSentences] = useState('')
-    const [open, setOpen] = useState(false);
-    const [value1, setValue1] = useState([]);
-    const [items, setItems] = useState([
-        { label: '$', value: 1 },
-        { label: '$$', value: 2 },
-        { label: '$$$', value: 3 },
-        { label: '$$$$', value: 4 },
-    ]);
-    const [filterupdate, setFilterupdate] = useState(0)
+
     console.log('lengthofarray= '+ results.fillthisarray.length)
-    if (route.params !== undefined) {
-        filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort, results2)
-        console.log(filtered)
-    }
+
     console.log(route)
    
 
@@ -112,23 +126,44 @@ const SearchScreen = ({route, navigation}) => {
     useEffect(()=> {
         if (needupdate == true) {
             setIsloading(false)
+            if (route.params === undefined) {
+                var hello = {"therealarray":price(value, results2)}
+                console.log("kekw")
+                console.log(hello)
+                setResults3(hello)
+            }
+            if (route.params !== undefined) {
+                filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort, results2, value)
+                var hello = {"therealarray":filtered}
+                setResults3(hello)
+            }
+        }
+        else if (needupdate == false) {
+            console.log('wokwok')
+            setResults3({"therealarray":[]})
         }
     }, [needupdate])
-    /*
+    
     useEffect(()=> {
-        setFilterupdate(filterupdate+1)
-    }, [route.params])*/
-
+        //setFilterupdate(filterupdate+1)
+        if (route.params !== undefined) {
+            filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort, results2, value)
+            var hello = {"therealarray":filtered}
+                setResults3(hello)
+            //console.log(filtered)
+        }
+    }, [route.params])
+/*
     useEffect(()=> {
         if (filtered !== null) {
-        console.log(results2)
+        //console.log(results2)
         console.log("meowmeow")
-        console.log(results3)
+        //console.log(results3)
         console.log({"therealarray":filtered})
         var hello = {"therealarray":filtered}
         setResults3(hello)
         }
-    },[filtered])
+    },[filtered])*/
 
     useEffect(() => {     
 
@@ -206,6 +241,7 @@ const SearchScreen = ({route, navigation}) => {
                     term={term} 
                     onTermChange={setTerm}
                     onTermSubmit={() => ShowActivity()}
+                    needupdate={needupdate}
                     />
                     {route.params==undefined? <Filter undefined={true}/>: <Filter undefined={false} distancefilter={route.params.distancefilter} pricefilter={route.params.pricefilter} sort={route.params.sort}/>}
             </View>

@@ -184,10 +184,10 @@ function restauranturl1(id,count, preference, needupdate, resurl, ratedsentence)
                 }
               }
             }
-            
+            /*
             for (var i = 0; i < fillpreferarray.length-preference; i += 1) {
               therealarray.pop();
-            }
+            }*/
             const reviewarray = []
               for (var i = 0; i < therealarray.length; i += 1) {
                 reviewarray.push(fillreviewarray[i].sentence)
@@ -265,7 +265,7 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
                 instancecounter += 1;
                 return instancecounter
               }).then(counter=> {
-                if (counter == fillthisarray.length) {
+                if ((counter == fillthisarray.length)) {
                   console.log(fillpreferarray)
                   console.log("fillpreferarray lenght is =" + fillpreferarray.length)
                   console.log("fillthisarray length is = " + fillthisarray.length)
@@ -314,10 +314,10 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
                     j = 60
                   }
                 }
-              }
+              }/*
               for (var i = 0; i < fillpreferarray.length-preference; i += 1) {
                 therealarray.pop();
-              }
+              }*/
               const reviewarray = []
               for (var i = 0; i < therealarray.length; i += 1) {
                 reviewarray.push(fillreviewarray[i].sentence)
@@ -486,6 +486,7 @@ function useGooglePlaces1() {
                 instancecounter += 1;
                 return instancecounter
               }).then(counter=> {
+        
                 if (counter == fillthisarray.length) {
                   console.log(fillpreferarray)
                   console.log("fillpreferarray lenght is =" + fillpreferarray.length)
@@ -535,10 +536,10 @@ function useGooglePlaces1() {
                     j = 60
                   }
                 }
-              }
+              }/*
               for (var i = 0; i < fillpreferarray.length-preference; i += 1) {
                 therealarray.pop();
-              }
+              }*/
               const reviewarray = []
               for (var i = 0; i < therealarray.length; i += 1) {
                 reviewarray.push(fillreviewarray[i].sentence)

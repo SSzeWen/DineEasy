@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
+const SearchBar = ({ term, onTermChange, onTermSubmit, needupdate }) => {
+
+    const [edit, setEdit] = useState(true)
+    const  handleKeyPress = ({ nativeEvent: { key: keyValue } }) => {
+        console.log(keyValue);
+        if(keyValue === 'Enter')
+        {
+          console.log("enter");
+        }
+    };
+
+    useEffect(()=> {
+        if (needupdate == true) {
+            setEdit(true)
+        }
+    },[needupdate])
+    const onSubmit = () => {
+        
+        onTermSubmit()
+        setEdit(false)
+        /*setTimeout(()=> {
+            setEdit(true)
+        },4000)*/
+    }
     return (
 
             <View style={styles.backgroundStyle}>
@@ -16,7 +39,8 @@ const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
                 placeholder='search'
                 value={term}
                 onChangeText={onTermChange}
-                onEndEditing={onTermSubmit}
+                onSubmitEditing={onSubmit}
+                editable={edit}
             />
         </View>
 
