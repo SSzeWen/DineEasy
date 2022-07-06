@@ -83,10 +83,10 @@ const RatingScreen = ({route}) => {
             });
 
             console.log('onSubmitHandler success', taskRef.id);
-            showRes('Successfully added task!');
+            showRes('Successfully added Rating!');
         } catch (err) {
             console.log('onSubmitHandler failure', err);
-            showRes('Failed to add task!');
+            showRes('Failed to add Rating!');
         }
         return RootNavigation.navigate("Main", {screen: "Rated Restaurants"})
     };

@@ -59,10 +59,10 @@ const SaveRate = ({props}) => {
             });
 
             //console.log('onSubmitHandler success', taskRef.id);
-            showRes('Successfully added task!');
+            showRes('Successfully added Restaurant!');
         } catch (err) {
             console.log('onSubmitHandler failure', err);
-            showRes('Failed to add task!');
+            showRes('Failed to add Restaurant!');
         }
         return RootNavigation.navigate("Main", {screen: "Saved Restaurants"})
     };
