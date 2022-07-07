@@ -20,6 +20,11 @@ const Currentlocation = () => {
         if (status !== 'granted') {
           //setErrorMsg('Permission to access location was denied');
           console.log('Permission to access location was denied');
+          /*dispatch(setOrigin({
+            latitude:1,
+            longitude:1,
+            address:null,
+          }))*/
           return;
         }
   

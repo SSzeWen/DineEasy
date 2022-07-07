@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Button, KeyboardAvoidingView } from 'react-native';
 import SearchBar from '../Components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../Components/ResultsList';
@@ -13,6 +13,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
 import { selectOrigin } from '../../slices/navSlice';
 import {useSelector} from "react-redux"
+import * as RootNavigation from '../RootNavigation'
+import Currentlocation from "../Components/Currentlocation"
 
 
 let filterarray = [];
@@ -23,6 +25,7 @@ const SearchScreen = ({route, navigation}) => {
 
     const origin = useSelector(selectOrigin)
     console.log(origin)
+    //const [latitude, longitude, address] = Currentlocation();
     
     let updater = true
     const [term, setTerm] = useState('');
@@ -220,12 +223,13 @@ const SearchScreen = ({route, navigation}) => {
     const ShowActivity = () => {
         searchApi(term, true, value, sentences)
         setIsloading(true)
-    }
-
+    }/*
+*/
     return (
         <View style = {{flex: 1}}>
             <View style={{ height:32, backgroundColor:'#fff'}}>
             </View>
+            
             <View style = {styles.header}>
                 <View style = {styles.icon}>
                     <TouchableOpacity onPress={()=> navigation.openDrawer()}>
@@ -233,9 +237,20 @@ const SearchScreen = ({route, navigation}) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.textContainer}>
+                    <View style={{flex:1.5}}>
                     <Text style={styles.headerText}>
-                        {address}
+                        {origin? origin.address:"Please input address"}
                     </Text>
+                    </View>
+                    <View style={{flex:1, alignItems:'center', backgroundColor:'pink', borderRadius:10,}}>
+                    <TouchableOpacity style={{flex:1, justifyContent:'center'}}onPress={()=>RootNavigation.navigate("Change Location")}>
+                        <Text>
+                            Change Address
+                        </Text>
+                    </TouchableOpacity>
+                    </View>
+                    
+                    
                 </View>
             </View>
             <View style = {{flexDirection:'row'}}>
@@ -260,7 +275,8 @@ const SearchScreen = ({route, navigation}) => {
                     results={results3} 
                     title="All results" 
                 />
-                
+
+            
         </View>
         
     );
@@ -272,6 +288,7 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
+        height: 70,
         flexDirection: 'row',
         backgroundColor: '#fff'
     },
@@ -279,7 +296,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 12,
         justifyContent: 'center',
-        marginLeft:6
+        //marginLeft:6
         
     },
     icon: {
@@ -288,7 +305,10 @@ const styles = StyleSheet.create({
         borderColor:'white'
     },
     textContainer: {
+        flex:1,
         justifyContent:'center', 
+        alignItems:'center',
+        flexDirection:'row',
         borderWidth:10, 
         borderColor:'white'
     }
@@ -298,31 +318,3 @@ const styles = StyleSheet.create({
 export default SearchScreen;
 
 
-/*<RNPickerSelect
-            style={{width: '20%', height:'20%'}}
-            onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'All', value: 0 },
-                { label: '$', value: 1 },
-                { label: '$$', value: 2 },
-                { label: '$$$', value: 3 },
-                { label: '$$$$', value: 4 },
-
-            ]}
-            placeholder={{//label: "Current: " + placeholderrecommendation, value:null , color: '#9EA0A4'
-            }}
-            />*/
-/*
-            <DropDownPicker
-            multiple={true}
-            min={0}
-            max={5}
-            open={open}
-            value={value1}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue1}
-            setItems={setItems}
-            containerStyle={{width:'30%', marginLeft:'5%'}}
-            placeholder={'Price'}
-            />*/

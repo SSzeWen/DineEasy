@@ -7,7 +7,8 @@ import { query, collection, onSnapshot, addDoc, setDoc, doc, connectFirestoreEmu
 import { Value } from "react-native-reanimated";
 import { HeaderStyleInterpolators } from "react-navigation-stack";
 import { async } from "@firebase/util";
-
+import { useSelector } from 'react-redux';
+import { selectOrigin } from '../../slices/navSlice';
 
 
 //import SearchScreenGoogle from "../screens/SearchScreenGoogle";
@@ -410,7 +411,8 @@ function useGooglePlaces1() {
 
     //const latitude = 1.4304; // you can update it with user's latitude & Longitude
     //const longitude = 103.8354;
-    const [latitude, longitude, address] = Currentlocation();
+   
+    let [latitude, longitude, address] = Currentlocation();
     let radMetter = 2000; // Search withing 1 KM radius
     const [restaurantpic, setRestaurantpic] = useState('');
     const [token, setToken] = useState('');
@@ -422,7 +424,10 @@ function useGooglePlaces1() {
     console.log(longitude)
     const [numberoftimes, useNumberoftimes] = useState('false')
     const [needupdate, setNeedupdate] = useState(false)
+    const origin = useSelector(selectOrigin)
     
+    /*const latitude = origin.latitude
+    const longitude = origin.longitude*/
     
 
 
@@ -593,10 +598,18 @@ function useGooglePlaces1() {
     
 
     const SearchApi = async(Searchterm, reset, preference, ratedsentence) => {
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&keyword=' + Searchterm +'&radius=' + radMetter + '&type=restaurant&opennow=true' + '&key=' + Google_apikey
+    
     console.log(Searchterm);
     console.log(url)
     console.log(ratedsentence)
+    if (origin !== null) {
+      latitude = origin.latitude
+      longitude = origin.longitude
+      console.log("googleplacetest")
+      console.log(origin)
+    }
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&keyword=' + Searchterm +'&radius=' + radMetter + '&type=restaurant&opennow=true' + '&key=' + Google_apikey
+    
     
     //ratedsentencefilter(ratedsentence)
     
@@ -604,7 +617,7 @@ function useGooglePlaces1() {
       useNumberoftimes('false');
       setNeedupdate(false)
     }
-    if((numberoftimes === 'false' || reset === true) && latitude !== 1 && longitude !== 1) {
+    if((numberoftimes === 'false' || reset === true) && origin !== null) {
     console.log(url)
     await fetch(url)
       .then(res => {
