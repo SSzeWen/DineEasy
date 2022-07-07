@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Button } from 'react-native';
 import SearchBar from '../Components/SearchBar';
-import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
 import ResultsList from '../Components/ResultsList';
 import useGooglePlaces1 from '../Components/useGooglePlaces1';
 import { query, collection, onSnapshot, addDoc, deleteDoc, doc,setDoc } from 'firebase/firestore';
 import { signOut, getAuth, onAuthStateChanged} from 'firebase/auth';
 import { auth, db } from '../firebase';
-import Spacer from '../Components/Spacer';
 import { Feather } from '@expo/vector-icons';
 import Filter from '../Components/filter'; 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { color } from 'react-native-reanimated';
+import { selectOrigin } from '../../slices/navSlice';
+import {useSelector} from "react-redux"
 
 
 let filterarray = [];
@@ -21,14 +21,16 @@ let filtered = null
 
 const SearchScreen = ({route, navigation}) => {
 
-    
+    const origin = useSelector(selectOrigin)
+    console.log(origin)
     
     let updater = true
     const [term, setTerm] = useState('');
     const [value, setValue] = useState(0);
     const [isloading, setIsloading] = useState(false)
     //const [searchApi, results, errorMessage] = useResults();
-    const [searchApi, results, results1, results2, errorMessage, needupdate] = useGooglePlaces1();
+    const [searchApi, results, results1, results2, errorMessage, needupdate, address] = useGooglePlaces1();
+    console.log(address)
     const [results3, setResults3] = useState(results2)
     const [sentences, setSentences] = useState('')
     const [open, setOpen] = useState(false);
@@ -232,7 +234,7 @@ const SearchScreen = ({route, navigation}) => {
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.headerText}>
-                        Home
+                        {address}
                     </Text>
                 </View>
             </View>
@@ -275,7 +277,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 12,
         justifyContent: 'center',
         marginLeft:6
         

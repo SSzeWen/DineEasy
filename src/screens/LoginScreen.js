@@ -86,7 +86,7 @@ return () =>unsubscribeAuthStateChanged;
     })
     
     return (
-        Currentlocation(),
+        //Currentlocation(),
         //useGooglePlaces1(),
 
         <View style={styles.container}>

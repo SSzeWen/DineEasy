@@ -410,7 +410,7 @@ function useGooglePlaces1() {
 
     //const latitude = 1.4304; // you can update it with user's latitude & Longitude
     //const longitude = 103.8354;
-    const [latitude, longitude] = Currentlocation();
+    const [latitude, longitude, address] = Currentlocation();
     let radMetter = 2000; // Search withing 1 KM radius
     const [restaurantpic, setRestaurantpic] = useState('');
     const [token, setToken] = useState('');
@@ -422,6 +422,9 @@ function useGooglePlaces1() {
     console.log(longitude)
     const [numberoftimes, useNumberoftimes] = useState('false')
     const [needupdate, setNeedupdate] = useState(false)
+    
+    
+
 
     const updater = (hello) => {
       if (hello == 1) {
@@ -728,8 +731,17 @@ function useGooglePlaces1() {
         setNeedupdate(true)
         console.log(error);
       });
-    }}
-      return [SearchApi, {fillthisarray}, fillthirdarray, {therealarray}, errorMessage, needupdate]
+    }
+    else {
+      setErrorMessage({"error":true})
+      setNeedupdate(false)
+      setTimeout(()=> {
+        setNeedupdate(true)
+      },1000)
+      
+    }
+  }
+      return [SearchApi, {fillthisarray}, fillthirdarray, {therealarray}, errorMessage, needupdate, address]
 
   };
   

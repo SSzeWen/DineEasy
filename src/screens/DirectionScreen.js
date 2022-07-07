@@ -6,10 +6,16 @@ import MapView, { Marker } from 'react-native-maps';
 import Currentlocation from '../Components/Currentlocation';
 import MapViewDirections from 'react-native-maps-directions';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { selectOrigin } from '../../slices/navSlice';
 
 
 const DirectionScreen = ({ route }) => {
-    const [originlatitude, originlongitude] =  Currentlocation();
+    //const [originlatitude, originlongitude] =  Currentlocation();
+    const origin = useSelector(selectOrigin)
+    console.log(origin)
+    const originlatitude = origin.latitude
+    const originlongitude = origin.longitude
     console.log(route)
     const mapRef = useRef(null)
     const destination = route.params.coordinate

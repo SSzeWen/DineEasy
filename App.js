@@ -19,6 +19,8 @@ import useGooglePlaces1 from './src/Components/useGooglePlaces1';
 import RatingScreen from './src/screens/RatingScreen';
 import DirectionScreen from './src/screens/DirectionScreen'
 import FilterScreen from './src/screens/FilterScreen'
+import {Provider} from "react-redux"
+import {store} from "./store"
 
 //LogBox.ignoreLogs(["Warning: AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage"]);
 LogBox.ignoreAllLogs();
@@ -91,13 +93,17 @@ const Auth = () => {
 
 const App = () => {
   return (
-    <NavigationContainer ref={navigationRef}>
+    <Provider store={store}>
+      <NavigationContainer ref={navigationRef}>
       <AppStack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
         <AppStack.Screen name="Auth" component={Auth} />
         <AppStack.Screen name="Main" component={Main} />
       </AppStack.Navigator>
     </NavigationContainer>
-  )
+
+    </Provider>
+      )
+    
 };
 
 export default App;
