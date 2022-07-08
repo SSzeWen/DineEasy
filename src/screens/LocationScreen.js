@@ -46,9 +46,12 @@ const LocationScreen = () => {
     return (
 
         <View style={{flex:1, backgroundColor:'white'}}>
-            <View style={{flex:4}}>
             <GooglePlacesAutocomplete
+
             styles={{
+                container:{
+                    flex:0
+                },
                 textInput:{
                     height:50,
                     backgroundColor:'#D3D3D3',
@@ -76,10 +79,9 @@ const LocationScreen = () => {
                 }}
                 nearbyPlacesAPI="GooglePlacesSearch"
             />
-            </View>
-            <View style={{flex:4}}>
+
             {(originlatitude !== 1) && (originlongitude !== 1)? <MapView
-            style={{flex:1}}
+            style={{flexGrow:1}}
             ref={mapRef}
             initialRegion={{
                 latitude: originlatitude,
@@ -125,14 +127,13 @@ const LocationScreen = () => {
             identifier="origin"/>
             
         </MapView> : null}
-            </View>
-            <View style={{flex:.7}}>
+
             <TouchableOpacity style={[styles.container, {backgroundColor:'pink'}]} onPress={()=> RootNavigation.navigate("Search")}>
                     <Text style={{fontWeight: 'bold'}}>
                         Return to Home Screen
                     </Text>
                 </TouchableOpacity>
-            </View>
+
             
         </View>
         
@@ -153,7 +154,8 @@ const styles = StyleSheet.create({
         
     },
     container: {
-        flex:1,
+        //flex:1,
+        flexBasis:'6%',
         alignItems:'center',
         justifyContent:'center',
         borderRadius:20,

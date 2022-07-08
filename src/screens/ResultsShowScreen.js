@@ -74,13 +74,15 @@ const ResultShowScreen = ({ route }) => {
 const styles = StyleSheet.create({
     image: {
         height: 200,
-        width: 300
+        width: 300,
+        //marginBottom:3,
     },
     horizontalcontainer: {
         flex: 1,
         flexDirection: 'row',
         alignContent: 'center',
-        alignItems:'center'
+        alignItems:'center',
+        marginLeft:6
         
     }
 });
