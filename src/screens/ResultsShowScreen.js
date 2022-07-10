@@ -78,14 +78,14 @@ const ResultShowScreen = ({ route }) => {
                 }} />
             
             </View>
-            <View style={{flex:1, justifyContent:'center', marginLeft:'3%', marginRight:'10%', marginVertical:'3%'}}>
+            <View style={{flex:1, justifyContent:'center', marginLeft:'3%', marginRight:'10%', marginTop:'1%'}}>
                 <Text style={{fontWeight:'bold', fontSize:17}}>
                     {placename}
                 </Text>
 
             </View>
             <View style={styles.horizontalcontainer}>
-                <View style={{flex:4}}>
+                <View style={{flex:4, marginRight:3}}>
                 <View style={{flex:1,flexDirection:'row', alignItems:'center', justifyContent:'center',marginLeft:4}}>
             <AntDesign name="star" size={24} color="orange" />
             { score != null ? <Text style={{flex:1,fontSize:15,marginLeft:5}}> {Math.round(score)}</Text> : null}
@@ -101,7 +101,7 @@ const ResultShowScreen = ({ route }) => {
             </TouchableOpacity>
             
             </View>
-            <View style={{flex:.5}}></View>
+            <View style={{flex:.2}}></View>
             <View style={{flex:6}}>
                 
             <MapView
@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
         //marginBottom:3,
     },
     horizontalcontainer: {
-        flex: 2,
+        flex: 2.5,
         flexDirection: 'row',
         alignContent: 'center',
         alignItems:'center',
-        marginLeft:6
+        marginLeft:6,
         
     }
 });
