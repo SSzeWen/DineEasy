@@ -230,7 +230,7 @@ const SearchScreen = ({route, navigation}) => {
             <View style={{ height:32, backgroundColor:'#fff'}}>
             </View>
             
-            <View style = {styles.header}>
+            <KeyboardAvoidingView style = {styles.header}>
                 <View style = {styles.icon}>
                     <TouchableOpacity onPress={()=> navigation.openDrawer()}>
                         <Feather name="menu" size={24} color="black" />
@@ -248,11 +248,9 @@ const SearchScreen = ({route, navigation}) => {
                             Change Address
                         </Text>
                     </TouchableOpacity>
-                    </View>
-                    
-                    
+                    </View>  
                 </View>
-            </View>
+            </KeyboardAvoidingView>
             <View style = {{flexDirection:'row'}}>
                 <SearchBar
                     term={term} 
@@ -288,7 +286,7 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        flexBasis:'7%',
+        height: 55,
         flexDirection: 'row',
         backgroundColor: '#fff'
     },
