@@ -37,7 +37,7 @@ const LocationScreen = () => {
         //mapRef.current.fitToSuppliedMarkers(["origin"]);
         mapRef.current.animateToRegion(region,1000)
             
-        },1000)
+        },100)
     }
             console.log("meowmeow2")
     },[originlatitude,originlongitude])

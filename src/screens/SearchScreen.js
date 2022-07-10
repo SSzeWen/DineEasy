@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Button, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ToastAndroid, ActivityIndicator, Button, KeyboardAvoidingView, StatusBar } from 'react-native';
 import SearchBar from '../Components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../Components/ResultsList';
@@ -15,6 +15,10 @@ import { selectOrigin } from '../../slices/navSlice';
 import {useSelector} from "react-redux"
 import * as RootNavigation from '../RootNavigation'
 import Currentlocation from "../Components/Currentlocation"
+import { Dimensions } from 'react-native';
+import { ScreenHeight } from 'react-native-elements/dist/helpers';
+import { useHeaderHeight } from 'react-navigation-stack';
+
 
 
 let filterarray = [];
@@ -223,11 +227,11 @@ const SearchScreen = ({route, navigation}) => {
     const ShowActivity = () => {
         searchApi(term, true, value, sentences)
         setIsloading(true)
-    }/*
-*/
+    }
+
     return (
         <View style = {{flex: 1}}>
-            <View style={{ height:32, backgroundColor:'#fff'}}>
+            <View style={{ height:StatusBar.currentHeight, backgroundColor:'#fff'}}>
             </View>
             
             <KeyboardAvoidingView style = {styles.header}>
@@ -286,7 +290,7 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: 55,
+        height: ScreenHeight/13.5,
         flexDirection: 'row',
         backgroundColor: '#fff'
     },
