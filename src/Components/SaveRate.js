@@ -17,7 +17,10 @@ const SaveRate = ({props}) => {
     const photo_reference = result.result.photos[0].photo_reference
     const restaurant_id = result.result.name
     const score = result.score
-    const sentence = result.sentence
+    let sentence = result.sentence
+    if (sentence == undefined) {
+        sentence = result.result.name
+    }
     console.log(result)
     
     const [task, setTask] = useState('');

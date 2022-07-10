@@ -21,7 +21,10 @@ const RatingScreen = ({route}) => {
     const restaurantname = route.params.restaurant_id
     const photo_reference = route.params.photo_reference
     const score = route.params.score
-    const sentence = route.params.sentence
+    let sentence = route.params.sentence
+    if (sentence == undefined) {
+      sentence = route.params.restaurant_id
+    }
     // To set the default Star Selected
     const [defaultRating, setDefaultRating] = useState(2);
     const [task, setTask] = useState('');

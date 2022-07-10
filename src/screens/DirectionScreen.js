@@ -8,6 +8,8 @@ import MapViewDirections from 'react-native-maps-directions';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { selectOrigin } from '../../slices/navSlice';
+import openMap from 'react-native-open-maps';
+
 
 
 const DirectionScreen = ({ route }) => {
@@ -38,7 +40,7 @@ const DirectionScreen = ({ route }) => {
     return (
 
         <View style={{flex:1}}>
-            <View style={{flex:4}}>
+            <View style={{flex:14}}>
             {(originlatitude !== 1) && (originlongitude !== 1)? <MapView
             style={{flex:1}}
             ref={mapRef}
@@ -67,7 +69,13 @@ const DirectionScreen = ({ route }) => {
             
         </MapView> : null}
             </View>
-            <View style={{flex:1}}></View>
+            <View style={{flex:1, backgroundColor:'pink', justifyContent:'center', alignItems:'center', borderRadius:20, width:'50%', alignSelf:'center',}}>
+                <TouchableOpacity onPress={()=>openMap({start:String(originlatitude)+","+ String(originlongitude), 
+                                                    end: String(destination['latitude'])+"," + String(destination['longitude']),
+                                                    travelType: "walk"})}>
+                    <Text>Open in Google Maps</Text>
+                </TouchableOpacity>
+            </View>
             
         </View>
         
