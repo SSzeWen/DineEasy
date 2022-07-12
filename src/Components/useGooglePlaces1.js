@@ -204,9 +204,7 @@ function restauranturl1(id,count, preference, needupdate, resurl, ratedsentence)
 }
 
 
-async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsentence) {
-  const latitude = 1.4304; // you can update it with user's latitude & Longitude
-    const longitude = 103.8354;
+async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsentence,latitude,longitude) {
     //const [latitude, longitude] = Currentlocation();
     let radMetter = 2000; // Search withing 1 KM radius
     if (token === undefined) {
@@ -633,6 +631,7 @@ function useGooglePlaces1() {
         instancecounter = 0;
         filldistancecounter.pop();
         fillfilterarray.pop();
+        fillreviewarray.pop()
       }
       useNumberoftimes('true');
       var count = 0;
@@ -692,13 +691,13 @@ function useGooglePlaces1() {
       }).then(function(result){
         return new Promise(resolve => {
           setTimeout(()=>{
-            resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence));
+            resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence, latitude, longitude));
           },2000)
         })
       }).then(function(result) {
          return new Promise(resolve => {
             setTimeout(()=>{
-              resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence));
+              resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence, latitude, longitude));
             },2000)
           })
         })

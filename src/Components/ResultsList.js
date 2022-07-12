@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import ResultsDetail from './ResultsDetail';
 import * as RootNavigation from '../RootNavigation'
+import { ScreenHeight } from 'react-native-elements/dist/helpers';
 
 
 
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     container : {
-        marginBottom: '47.5%'
+        marginBottom: ScreenHeight/3.8
         
     }
 });
