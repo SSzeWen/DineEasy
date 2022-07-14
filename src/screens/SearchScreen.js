@@ -122,7 +122,7 @@ const SearchScreen = ({route, navigation}) => {
         .then(result => {
           console.log(result)
           for (var i = 0; i < result.sentence.length; i += 1) {
-            if (result.sentence[i][1] < 3.5) {
+            if (result.sentence[i][1] < 3.65) {
               result.sentence.splice(i,1)
             }
           }

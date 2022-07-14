@@ -7,7 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const Recommendstar = ({result}) => {
     if (result.recommendstar < 4.5) {
-    return <MaterialIcons style={{justifyContent:'flex-end'}}name="recommend" size={20} color="red" />
+    return <MaterialIcons style={{justifyContent:'flex-end'}}name="recommend" size={20} color="orange" />
     }
     else {
         return <MaterialIcons style={{justifyContent:'flex-end'}}name="recommend" size={20} color="green" />
