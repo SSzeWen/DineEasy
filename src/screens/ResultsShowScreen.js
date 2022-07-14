@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView , FlatList, Image, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, ScrollView , FlatList, Image, TouchableOpacity,Animated} from 'react-native';
 import yelp from '../api/yelp';
 import useGooglePlaces1 from '../Components/useGooglePlaces1';
 import {Google_apikey} from '@env'
@@ -21,6 +21,8 @@ const ResultShowScreen = ({ route }) => {
     const coordinate = route.params.coordinate
     const placename = route.params.name
     console.log(coordinate)
+    const scrollX = new Animated.Value(0)
+    let position = Animated.divide(scrollX, ScreenWidth)
     
     console.log(route)
     //console.log(id)
@@ -59,7 +61,7 @@ const ResultShowScreen = ({ route }) => {
     return (
         <View style = {{ flex: 1}}>
             
-            <View style={{flex:5, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+            <View style={{flex:5, justifyContent:'center', alignItems:'center'}}>
             <FlatList
                 
                 data={result.result.photos}
@@ -67,16 +69,34 @@ const ResultShowScreen = ({ route }) => {
                 horizontal={true}
                 pagingEnabled={true}
                 scrollEnabled={true}
-                //showsHorizontalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 snapToAlignment="center"
                 decelerationRate={"fast"}
                 renderItem={({item}) => {
                     console.log(item)
                     return (
                     <View style={{flex:1}}><Image style={styles.image} source={{ uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey}} />
-                    <Text style={{flex:.02}}></Text></View>)
-                }} />
-            
+                    </View>)
+                }}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { x: scrollX } } }]
+                )}/>
+            <View style={styles.dotView}>
+                    {result.result.photos.map((_, i) => {
+                        let opacity = position.interpolate({
+                            inputRange: [i - 1, i, i + 1],
+                            outputRange: [0.3, 1, 0.3],
+                            extrapolate: 'clamp'
+                        })
+                        return (
+                            <Animated.View
+                                key={i}
+                                style={{ opacity, height: 6, width: 6, backgroundColor: '#595959', margin: 8, borderRadius: 5 }}
+                            />
+                        )
+                    })}
+
+                </View>
             </View>
             <View style={{flex:1, justifyContent:'center', marginLeft:'3%', marginRight:'10%', marginTop:'1%'}}>
                 <Text style={{fontWeight:'bold', fontSize:17}}>
@@ -86,7 +106,7 @@ const ResultShowScreen = ({ route }) => {
             </View>
             <View style={styles.horizontalcontainer}>
                 <View style={{flex:4, marginRight:3}}>
-                <View style={{flex:1,flexDirection:'row', alignItems:'center', justifyContent:'center',marginLeft:4}}>
+                <View style={{flex:.5,flexDirection:'row', alignItems:'center', justifyContent:'center',marginLeft:4}}>
             <AntDesign name="star" size={24} color="orange" />
             { score != null ? <Text style={{flex:1,fontSize:15,marginLeft:5}}> {Math.round(score)}</Text> : null}
             </View>
@@ -100,9 +120,9 @@ const ResultShowScreen = ({ route }) => {
             <MaterialIcons name="directions" size={30} color="green" />
             </TouchableOpacity>
             
-            </View>
+            </View>  
             <View style={{flex:.2}}></View>
-            <View style={{flex:6}}>
+            <View style={{flex:4}}>
                 
             <MapView
             style={{flex:1}}
@@ -127,8 +147,8 @@ const styles = StyleSheet.create({
         //width:'100%'
         height: '100%',
         //borderRadius:20,
-        width: ScreenWidth -12,
-        marginHorizontal:6
+        width: ScreenWidth,
+        //marginHorizontal:6
         //marginBottom:3,
     },
     horizontalcontainer: {
@@ -138,7 +158,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         marginLeft:6,
         
-    }
+    },
+    dotView: { flexDirection: 'row', justifyContent: 'center' },
 });
 
 export default ResultShowScreen;

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import ResultsDetail from './ResultsDetail';
 import * as RootNavigation from '../RootNavigation'
 import { ScreenHeight } from 'react-native-elements/dist/helpers';
+import { Dimensions , StatusBar } from 'react-native';
+
 
 
 
@@ -10,6 +12,12 @@ const ResultsList = ({ title, results, navigation }) => {
     //console.log('RESULTSLENGTH IS CALLED ONCE')
     //console.log(results)
     //console.log('resultslength is =' + results.length)
+
+
+const screenHeight = Dimensions.get('screen').height;
+const windowHeight = Dimensions.get('window').height;
+const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
+    console.log(navbarHeight)
     if (!results.therealarray.length) {
         return null;
     }
@@ -44,7 +52,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     container : {
-        marginBottom: ScreenHeight/3.8
+        marginBottom: ScreenHeight/4.15
         
     }
 });
