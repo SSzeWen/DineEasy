@@ -423,6 +423,7 @@ function useGooglePlaces1() {
     const [numberoftimes, useNumberoftimes] = useState('false')
     const [needupdate, setNeedupdate] = useState(false)
     const origin = useSelector(selectOrigin)
+    const [updatepredict, setUpdatepredict] = useState(false)
     
     /*const latitude = origin.latitude
     const longitude = origin.longitude*/
@@ -489,6 +490,7 @@ function useGooglePlaces1() {
               }).then(result=> {
                 fillpreferarray.push({"id":id, "review":result.prediction})
                 console.log({"id":id, "review":result.prediction})
+                setUpdatepredict(true)
                 instancecounter += 1;
                 return instancecounter
               }).then(counter=> {
@@ -614,6 +616,7 @@ function useGooglePlaces1() {
     if (reset === true) {
       useNumberoftimes('false');
       setNeedupdate(false)
+      setUpdatepredict(false)
     }
     if((numberoftimes === 'false' || reset === true) && origin !== null) {
     console.log(url)
@@ -753,7 +756,7 @@ function useGooglePlaces1() {
       
     }
   }
-      return [SearchApi, {fillthisarray}, fillthirdarray, {therealarray}, errorMessage, needupdate, address]
+      return [SearchApi, {fillthisarray}, fillthirdarray, {therealarray}, errorMessage, needupdate, address, updatepredict]
 
   };
   

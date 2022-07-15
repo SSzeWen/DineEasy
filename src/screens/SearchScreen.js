@@ -36,7 +36,7 @@ const SearchScreen = ({route, navigation}) => {
     const [value, setValue] = useState(0);
     const [isloading, setIsloading] = useState(false)
     //const [searchApi, results, errorMessage] = useResults();
-    const [searchApi, results, results1, results2, errorMessage, needupdate, address] = useGooglePlaces1();
+    const [searchApi, results, results1, results2, errorMessage, needupdate, address, updatepredict] = useGooglePlaces1();
     console.log(address)
     const [results3, setResults3] = useState(results2)
     const [sentences, setSentences] = useState('')
@@ -264,12 +264,19 @@ const SearchScreen = ({route, navigation}) => {
                     />
                     {route.params==undefined? <Filter undefined={true}/>: <Filter undefined={false} distancefilter={route.params.distancefilter} pricefilter={route.params.pricefilter} sort={route.params.sort}/>}
             </View>
-                {isloading?
+                {((isloading == true) && (updatepredict == false)) ?
                 <View style={{justifyContent:'center', alignContent:'center', alignItems:'center'}}>
                     <ActivityIndicator size="small" color="#0000ff" />
                     <Text>Getting reviews, Predicting ratings</Text>
                 </View>
                 : null}
+
+                {((isloading == true) && (updatepredict == true)) ?
+                <View style={{justifyContent:'center', alignContent:'center', alignItems:'center'}}>
+                    <ActivityIndicator size="small" color="#0000ff" />
+                    <Text>Predicting Ratings</Text>
+                </View>
+                : null} 
             
             
             {errorMessage.error? ErrorToast() : null}

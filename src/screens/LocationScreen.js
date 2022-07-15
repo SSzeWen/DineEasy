@@ -12,6 +12,7 @@ import * as RootNavigation from '../RootNavigation'
 import { setOrigin } from '../../slices/navSlice';
 import { useDispatch } from 'react-redux';
 import { Value } from 'react-native-reanimated';
+import { ScreenHeight } from 'react-native-elements/dist/helpers';
 
 
 const LocationScreen = () => {
@@ -155,7 +156,8 @@ const styles = StyleSheet.create({
     },
     container: {
         //flex:1,
-        flexBasis:'6%',
+        //flexBasis:'6%',
+        height:ScreenHeight/16,
         alignItems:'center',
         justifyContent:'center',
         borderRadius:20,
