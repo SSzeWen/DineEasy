@@ -5,15 +5,15 @@ import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as RootNavigation from '../RootNavigation'
 
-const Filter = ({undefined, distancefilter, pricefilter, sort}) => {
+const Filter = ({undefined, distancefilter, pricefilter, sort, distance, recommend}) => {
     console.log(undefined)
     return (
         <View style={{flex:1, justifyContent:'center', alignContent:'center',}}>
             {undefined?
-            <TouchableOpacity onPress={()=> RootNavigation.navigate("Filter", {'distancefilter':6, 'pricefilter':[false,false,false,false], 'sort':true})}>
+            <TouchableOpacity onPress={()=> RootNavigation.navigate("Filter", {'distancefilter':6, 'pricefilter':[false,false,false,false], 'sort':true, 'distance':false, 'recommend':false})}>
                 <AntDesign name="filter" size={24} color="black" />
             </TouchableOpacity>:
-            <TouchableOpacity onPress={()=> RootNavigation.navigate("Filter", {'distancefilter':distancefilter, 'pricefilter':pricefilter, 'sort':sort})}>
+            <TouchableOpacity onPress={()=> RootNavigation.navigate("Filter", {'distancefilter':distancefilter, 'pricefilter':pricefilter, 'sort':sort, 'distance':distance, 'recommend': recommend })}>
             <AntDesign name="filter" size={24} color="black" />
         </TouchableOpacity>}
         </View>

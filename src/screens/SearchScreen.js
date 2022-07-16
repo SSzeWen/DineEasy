@@ -59,7 +59,7 @@ const SearchScreen = ({route, navigation}) => {
         return places
     }
 
-    const filterprice = (distancefilter, pricefilter, sort, results, preference) => {
+    const filterprice = (distancefilter, pricefilter, distance, recommend, results, preference) => {
         for (var i = 0; i < 60; i += 1) {
             filterarray.pop()
         }
@@ -72,9 +72,10 @@ const SearchScreen = ({route, navigation}) => {
                 console.log("REACHEDHERE")
             }
         }
+        
         console.log("hello1")
         console.log(filterarray)
-        if (sort == false) {
+        if (distance == true) {
             for (var i = 0; i < filterarray.length;i += 1) {
                 let closest = 100
                 let count = i;
@@ -93,6 +94,15 @@ const SearchScreen = ({route, navigation}) => {
                 console.log(filterarray[count].distance)
                 console.log(count)
                 
+            }
+        }
+        else if (recommend == true) {
+            //console.log(filterarray)
+            for (var i = 0; i < filterarray.length; i += 1) {
+                if (filterarray[i].recommend !== true){
+                    filterarray.splice(i,1)
+                    i -= 1;
+                }
             }
         }
         console.log('myfkingnameis =' + preference)
@@ -124,6 +134,7 @@ const SearchScreen = ({route, navigation}) => {
           for (var i = 0; i < result.sentence.length; i += 1) {
             if (result.sentence[i][1] < 3.65) {
               result.sentence.splice(i,1)
+              i -= 1;
             }
           }
           
@@ -142,7 +153,7 @@ const SearchScreen = ({route, navigation}) => {
                 setResults3(hello)
             }
             if (route.params !== undefined) {
-                filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort, results2, value)
+                filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort,route.params.recommend, results2, value)
                 var hello = {"therealarray":filtered}
                 setResults3(hello)
             }
@@ -156,7 +167,7 @@ const SearchScreen = ({route, navigation}) => {
     useEffect(()=> {
         //setFilterupdate(filterupdate+1)
         if (route.params !== undefined) {
-            filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort, results2, value)
+            filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.distance, route.params.recommend, results2, value)
             var hello = {"therealarray":filtered}
                 setResults3(hello)
             //console.log(filtered)
@@ -262,7 +273,7 @@ const SearchScreen = ({route, navigation}) => {
                     onTermSubmit={() => ShowActivity()}
                     needupdate={needupdate}
                     />
-                    {route.params==undefined? <Filter undefined={true}/>: <Filter undefined={false} distancefilter={route.params.distancefilter} pricefilter={route.params.pricefilter} sort={route.params.sort}/>}
+                    {route.params==undefined? <Filter undefined={true}/>: <Filter undefined={false} distancefilter={route.params.distancefilter} pricefilter={route.params.pricefilter} sort={route.params.sort} distance={route.params.distance} recommend={route.params.recommend}/>}
             </View>
                 {((isloading == true) && (updatepredict == false)) ?
                 <View style={{justifyContent:'center', alignContent:'center', alignItems:'center'}}>

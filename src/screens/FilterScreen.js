@@ -26,7 +26,8 @@ const [color3, setColor3] = useState(istapped3==true?'pink':'white')
 const [value, setValue] = useState(route.params.distancefilter)
 const [selected, setSelected] = useState([])
 const [istouched,setIstouched] = useState(route.params.sort)
-const [istouched1,setIstouched1] = useState(!route.params.sort)
+const [istouched1,setIstouched1] = useState(route.params.distance)
+const [istouched2, setIstouched2] = useState(route.params.recommend)
 
 const Touched = () => {
     if (istouched) {
@@ -34,6 +35,7 @@ const Touched = () => {
     else {
         setIstouched(true)
         setIstouched1(false)
+        setIstouched2(false)
     }
 }
 
@@ -42,6 +44,16 @@ const Touched1 = ()=> {
     else {
         setIstouched1(true)
         setIstouched(false)
+        setIstouched2(false)
+    }
+}
+
+const Touched2 = () => {
+    if (istouched2) {}
+    else {
+        setIstouched1(false)
+        setIstouched(false)
+        setIstouched2(true)
     }
 }
 
@@ -130,9 +142,25 @@ const Registered3 = () => {
             }
             </View>
                 </View>
+                <View style={{flex:1, flexDirection:'row', alignItems:'center', borderBottomWidth:0.2, marginHorizontal:10}}>
+                    <Text style={{fontSize:17}}>
+                        Recommended Only
+                    </Text>
+                    <View style={{flex:1,flexDirection:'row', justifyContent:'flex-end'}}>
+                {istouched2?
+            <TouchableOpacity onPress={()=> {Touched2()}}>
+            <MaterialCommunityIcons name="record-circle-outline" size={24} color="black" />
+            </TouchableOpacity>:
+            <TouchableOpacity onPress={()=> {Touched2()}}>
+            <MaterialCommunityIcons name="circle-outline" size={24} color="black" />
+            </TouchableOpacity>
+            }
+            </View>
+                </View>
                 
             
             </View>
+            
             <View style={{flex:.5, marginLeft:11}}></View>
             <View style={{flex:1 , marginLeft:11}}>
                 <Text style={{fontSize:18, fontWeight:'bold'}}>Filters</Text>
@@ -178,7 +206,7 @@ const Registered3 = () => {
             
             
             <View style={{flex:1}}>
-                <TouchableOpacity style={[styles.container, {backgroundColor:'pink'}]} onPress={()=> RootNavigation.navigate("Search", {distancefilter:value, pricefilter:[istapped,istapped1,istapped2,istapped3], sort:istouched})}>
+                <TouchableOpacity style={[styles.container, {backgroundColor:'pink'}]} onPress={()=> RootNavigation.navigate("Search", {distancefilter:value, pricefilter:[istapped,istapped1,istapped2,istapped3], sort:istouched, distance:istouched1,recommend:istouched2})}>
                     <Text style={{fontWeight: 'bold'}}>
                         Apply Changes
                     </Text>
