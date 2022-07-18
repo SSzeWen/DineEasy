@@ -240,11 +240,29 @@ const SearchScreen = ({route, navigation}) => {
         setIsloading(true)
     }
 
+    const originaddress = (string) => {
+        console.log(string.length)
+        var lowest = 40;
+        const newstring = []
+        if (lowest > string.length) {
+            lowest = string.length
+        }
+        if (string.length > 40) {
+            for (var i = 0; i < lowest; i += 1) {
+                newstring.push(string[i])
+            }
+            newstring.push('...')
+            console.log(newstring)
+            return newstring
+        }
+        else return string
+        
+    }
+    
+
     return (
         <View style = {{flex: 1}}>
-            <View style={{ height:StatusBar.currentHeight, backgroundColor:'#fff'}}>
-            </View>
-            
+            <StatusBar hidden={true}/>
             <KeyboardAvoidingView style = {styles.header}>
                 <View style = {styles.icon}>
                     <TouchableOpacity onPress={()=> navigation.openDrawer()}>
@@ -254,7 +272,7 @@ const SearchScreen = ({route, navigation}) => {
                 <View style={styles.textContainer}>
                     <View style={{flex:1.5}}>
                     <Text style={styles.headerText}>
-                        {origin? origin.address:"Please input address"}
+                        {origin? originaddress(origin.address):"Please input address"}
                     </Text>
                     </View>
                     <View style={{flex:1, alignItems:'center', backgroundColor:'pink', borderRadius:10,}}>

@@ -108,7 +108,8 @@ const ResultShowScreen = ({ route }) => {
                 <View style={{flex:4, marginRight:3}}>
                 <View style={{flex:.5,flexDirection:'row', alignItems:'center', justifyContent:'center',marginLeft:4}}>
             <AntDesign name="star" size={24} color="orange" />
-            { score != null ? <Text style={{flex:1,fontSize:15,marginLeft:5}}> {Math.round(score)}</Text> : null}
+            { ((score != null) && (score != -1)) ? <Text style={{flex:1,fontSize:15,marginLeft:5}}> {Math.round(score)}</Text> : null}
+            { score == -1 ? <Text style={{flex:1,fontSize:15,marginLeft:5}}> NA</Text> : null}
             </View>
                     <View style={{flex:1,flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
                 <EvilIcons name="location" size={30} color="red"/>

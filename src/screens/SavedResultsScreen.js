@@ -74,7 +74,8 @@ const SavedResultsScreen = () => {
                             </View>
                         </View>
                         <View style={{flex:1, flexDirection:'row', justifyContent:'flex-start',alignItems:'center',marginHorizontal:15}}>
-                        <Text style={{flex:1,fontWeight: 'bold', fontSize:15}}>Ratings: {Math.round(item.score)}</Text>
+                            {item.score == -1? <Text style={{flex:1,fontWeight: 'bold', fontSize:15}}>Ratings: NA</Text>:
+                        <Text style={{flex:1,fontWeight: 'bold', fontSize:15}}>Ratings: {Math.round(item.score)}</Text>}
                         <View style={{flex:1,justifyContent:'center', marginVertical:6, marginHorizontal:10}}>
                         <TouchableOpacity style={styles.delete} onPress={()=>RootNavigation.navigate("Rating", {restaurant_id, photo_reference, score, sentence})}>
                                 <Text style={{fontWeight: 'bold', fontSize:15}}>Rate</Text>
