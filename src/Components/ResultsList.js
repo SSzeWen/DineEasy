@@ -33,7 +33,7 @@ const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
                 keyExtractor={(result) => result.id}
                 renderItem={({ item }) => {
                     return (
-                    <TouchableOpacity onPress={() => RootNavigation.navigate("ResultsShow", { id: item.id, rating:item.score, sentence:item.sentences, coordinate:item.coordinate, name:item.placeName })}>
+                    <TouchableOpacity onPress={() => RootNavigation.navigate("Overview", { id: item.id, rating:item.score, sentence:item.sentences, coordinate:item.coordinate, name:item.placeName })}>
                         <ResultsDetail result={item} />
                     </TouchableOpacity>
                     );
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     container : {
-        marginBottom: ScreenHeight/4.15
+        marginBottom: ScreenHeight/4.9
         
     }
 });

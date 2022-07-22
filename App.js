@@ -63,9 +63,9 @@ const RestaurantFlow = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen component={SearchScreen} name="Search" options={{ headerShown: false }}/>
-      <Stack.Screen component={ResultShowScreen} name="ResultsShow" />
+      <Stack.Screen component={ResultShowScreen} name="Overview" />
       <Stack.Screen component={RatingScreen} name="Rating"/>
-      <Stack.Screen component={DirectionScreen} name='DirectionsAPI'/>
+      <Stack.Screen component={DirectionScreen} name='Map'/>
       <Stack.Screen component={FilterScreen} name = 'Filter'/>
       <Stack.Screen component={LocationScreen} name = 'Change Location'/>
     </Stack.Navigator>

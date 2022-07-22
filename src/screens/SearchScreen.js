@@ -96,7 +96,7 @@ const SearchScreen = ({route, navigation}) => {
                 
             }
         }
-        else if (recommend == true) {
+        if (recommend == true) {
             //console.log(filterarray)
             for (var i = 0; i < filterarray.length; i += 1) {
                 if (filterarray[i].recommend !== true){
@@ -121,7 +121,7 @@ const SearchScreen = ({route, navigation}) => {
    
 
     const ratedsentencefilter = (ratedsentence) => {
-        const url = "https://sentences-27joodiwra-uc.a.run.app/filter"
+        const url = "https://sentences-4b6oee3saq-uc.a.run.app/filter"
         fetch(url, {
           method:'POST',
           headers: {
@@ -153,7 +153,7 @@ const SearchScreen = ({route, navigation}) => {
                 setResults3(hello)
             }
             if (route.params !== undefined) {
-                filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.sort,route.params.recommend, results2, value)
+                filtered=filterprice(route.params.distancefilter,route.params.pricefilter,route.params.distance,route.params.recommend, results2, value)
                 var hello = {"therealarray":filtered}
                 setResults3(hello)
             }

@@ -27,7 +27,7 @@ let fillfilterarray = [];
 
 const recommender = async(ratedsentence, sentences, needupdate) => {
   console.log("I AM CALLED")
-  const url = "https://sentences-27joodiwra-uc.a.run.app/predict"
+  const url = "https://sentences-4b6oee3saq-uc.a.run.app/predict"
   console.log("start")
   console.log(ratedsentence)
   console.log("hello")
@@ -86,8 +86,11 @@ function distancecalculator(destination, longitude, latitude) {
 function restauranturl1(id,count, preference, needupdate, resurl, ratedsentence) {
   const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict",
         "https://dineeasy-4.herokuapp.com/predict","https://dineeasy-5.herokuapp.com/predict","https://dineeasy-6.herokuapp.com/predict","https://dineeasy-7.herokuapp.com/predict","https://dineeasy-8.herokuapp.com/predict",
-        "https://dineeasy-9.herokuapp.com/predict","https://dineeasy-10.herokuapp.com/predict","https://dineeasy-11.herokuapp.com/predict","https://dineeasy-12.herokuapp.com/predict","https://dineeasy-13.herokuapp.com/predict"]
-        const cloud = ["https://jsonfile-27joodiwra-uc.a.run.app/predict", "https://jsonfile1-27joodiwra-uc.a.run.app/predict"]
+        "https://dineeasy-9.herokuapp.com/predict","https://dineeasy-10.herokuapp.com/predict","https://dineeasy-11.herokuapp.com/predict","https://dineeasy-12.herokuapp.com/predict","https://dineeasy-13.herokuapp.com/predict",
+        "https://dineeasy-14.herokuapp.com/predict","https://dineeasy-15.herokuapp.com/predict","https://dineeasy-16.herokuapp.com/predict","https://dineeasy-17.herokuapp.com/predict","https://dineeasy-18.herokuapp.com/predict",
+        "https://dineeasy-19.herokuapp.com/predict","https://dineeasy-20.herokuapp.com/predict","https://dineeasy-21.herokuapp.com/predict","https://dineeasy-22.herokuapp.com/predict","https://dineeasy-23.herokuapp.com/predict",
+        "https://dineeasy-24.herokuapp.com/predict","https://dineeasy-25.herokuapp.com/predict","https://dineeasy-26.herokuapp.com/predict","https://dineeasy-27.herokuapp.com/predict","https://dineeasy-28.herokuapp.com/predict"]
+        const cloud = ["https://jsonfile-4b6oee3saq-uc.a.run.app/predict"]
 
         fetch(resurl).then(res=> {
           return res.json()
@@ -100,7 +103,7 @@ function restauranturl1(id,count, preference, needupdate, resurl, ratedsentence)
           return res.result.url
       }).then((res)=>{
         console.log("hello" + res)
-        let counter = count%15
+        let counter = count%30
         return fetch(heroku[counter], {
           method:'POST',
           headers: {
@@ -204,7 +207,7 @@ function restauranturl1(id,count, preference, needupdate, resurl, ratedsentence)
 }
 
 
-async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsentence,latitude,longitude) {
+async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsentence,latitude,longitude, count) {
     //const [latitude, longitude] = Currentlocation();
     let radMetter = 2000; // Search withing 1 KM radius
     if (token === undefined) {
@@ -216,8 +219,11 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
         console.log(resurl)
         const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict",
         "https://dineeasy-4.herokuapp.com/predict","https://dineeasy-5.herokuapp.com/predict","https://dineeasy-6.herokuapp.com/predict","https://dineeasy-7.herokuapp.com/predict","https://dineeasy-8.herokuapp.com/predict",
-        "https://dineeasy-9.herokuapp.com/predict","https://dineeasy-10.herokuapp.com/predict","https://dineeasy-11.herokuapp.com/predict","https://dineeasy-12.herokuapp.com/predict","https://dineeasy-13.herokuapp.com/predict"]
-        const cloud = ["https://jsonfile-27joodiwra-uc.a.run.app/predict", "https://jsonfile1-27joodiwra-uc.a.run.app/predict"]
+        "https://dineeasy-9.herokuapp.com/predict","https://dineeasy-10.herokuapp.com/predict","https://dineeasy-11.herokuapp.com/predict","https://dineeasy-12.herokuapp.com/predict","https://dineeasy-13.herokuapp.com/predict",
+        "https://dineeasy-14.herokuapp.com/predict","https://dineeasy-15.herokuapp.com/predict","https://dineeasy-16.herokuapp.com/predict","https://dineeasy-17.herokuapp.com/predict","https://dineeasy-18.herokuapp.com/predict",
+        "https://dineeasy-19.herokuapp.com/predict","https://dineeasy-20.herokuapp.com/predict","https://dineeasy-21.herokuapp.com/predict","https://dineeasy-22.herokuapp.com/predict","https://dineeasy-23.herokuapp.com/predict",
+        "https://dineeasy-24.herokuapp.com/predict","https://dineeasy-25.herokuapp.com/predict","https://dineeasy-26.herokuapp.com/predict","https://dineeasy-27.herokuapp.com/predict","https://dineeasy-28.herokuapp.com/predict"]
+        const cloud = ["https://jsonfile-4b6oee3saq-uc.a.run.app/predict"]
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
@@ -229,7 +235,7 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
             return res.result.url
         }).then((res)=>{
           console.log("hello" + res)
-          let counter = count%15
+          let counter = count%30
           return fetch(heroku[counter], {
             method:'POST',
             headers: {
@@ -345,7 +351,7 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
       })
       .then(res => {
 
-      var count = 0;
+      //var count = 0;
       var places = [] // This Array WIll contain locations received from google
         for(let googlePlace of res.results) {
           var place = {}
@@ -375,7 +381,7 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
           place['image_url'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + gallery[0] + '&key=' + Google_apikey
           place['review_count'] = googlePlace.user_ratings_total
           place['price_level'] = googlePlace.price_level
-          if (googlePlace.user_ratings_total > 5){
+          if (googlePlace.user_ratings_total > 5 && count < 30){
           places.push(place);
           fillthisarray.push(place);
           therealarray.push(place)
@@ -401,7 +407,7 @@ async function GooglePlacesNextPage2 (token, preference, needupdate, ratedsenten
         console.log(error);
       });
       console.log(fillsecondarray.length)
-      return fillsecondarray[fillsecondarray.length - 1];
+      return [fillsecondarray[fillsecondarray.length - 1], count];
   }
 
 
@@ -445,8 +451,11 @@ function useGooglePlaces1() {
         console.log(resurl)
         const heroku = ["https://dineeasy.herokuapp.com/predict", "https://dineeasy-orbital.herokuapp.com/predict", "https://seltest908.herokuapp.com/predict", "https://dineeasy-2.herokuapp.com/predict", "https://dineeasy-3.herokuapp.com/predict",
         "https://dineeasy-4.herokuapp.com/predict","https://dineeasy-5.herokuapp.com/predict","https://dineeasy-6.herokuapp.com/predict","https://dineeasy-7.herokuapp.com/predict","https://dineeasy-8.herokuapp.com/predict",
-        "https://dineeasy-9.herokuapp.com/predict","https://dineeasy-10.herokuapp.com/predict","https://dineeasy-11.herokuapp.com/predict","https://dineeasy-12.herokuapp.com/predict","https://dineeasy-13.herokuapp.com/predict"]
-        const cloud = ["https://jsonfile-27joodiwra-uc.a.run.app/predict", "https://jsonfile1-27joodiwra-uc.a.run.app/predict"]
+        "https://dineeasy-9.herokuapp.com/predict","https://dineeasy-10.herokuapp.com/predict","https://dineeasy-11.herokuapp.com/predict","https://dineeasy-12.herokuapp.com/predict","https://dineeasy-13.herokuapp.com/predict",
+        "https://dineeasy-14.herokuapp.com/predict","https://dineeasy-15.herokuapp.com/predict","https://dineeasy-16.herokuapp.com/predict","https://dineeasy-17.herokuapp.com/predict","https://dineeasy-18.herokuapp.com/predict",
+        "https://dineeasy-19.herokuapp.com/predict","https://dineeasy-20.herokuapp.com/predict","https://dineeasy-21.herokuapp.com/predict","https://dineeasy-22.herokuapp.com/predict","https://dineeasy-23.herokuapp.com/predict",
+        "https://dineeasy-24.herokuapp.com/predict","https://dineeasy-25.herokuapp.com/predict","https://dineeasy-26.herokuapp.com/predict","https://dineeasy-27.herokuapp.com/predict","https://dineeasy-28.herokuapp.com/predict"]
+        const cloud = ["https://jsonfile-4b6oee3saq-uc.a.run.app/predict"]
         await fetch(resurl).then(res=> {
             return res.json()
         }).then(res=> {
@@ -458,7 +467,7 @@ function useGooglePlaces1() {
             return res.result.url
         }).then((res)=>{
           console.log("hello" + res)
-          let counter = count%15
+          let counter = count%30
           return fetch(heroku[counter], {
             method:'POST',
             headers: {
@@ -689,21 +698,24 @@ function useGooglePlaces1() {
         fillsecondarray.push(res.next_page_token);
         if(places[digit].gallery[0]);
         //setToken(res.next_page_token);
-        return res.next_page_token
+        return [res.next_page_token, count]
                
       }).then(function(result){
+        console.log(result)
         return new Promise(resolve => {
           setTimeout(()=>{
-            resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence, latitude, longitude));
+            resolve(GooglePlacesNextPage2(result[0], preference, updater, ratedsentence, latitude, longitude, result[1]));
           },2000)
         })
-      }).then(function(result) {
+      })/*.then(function(result) {
+        console.log("MYMANISFKED")
+        console.log(result)
          return new Promise(resolve => {
             setTimeout(()=>{
-              resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence, latitude, longitude));
+              resolve(GooglePlacesNextPage2(result, preference, updater, ratedsentence, latitude, longitude, result[1]));
             },2000)
           })
-        })
+        })*/
             /*.then(function(result) {
           
             setTimeout(()=>{

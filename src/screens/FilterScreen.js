@@ -35,7 +35,6 @@ const Touched = () => {
     else {
         setIstouched(true)
         setIstouched1(false)
-        setIstouched2(false)
     }
 }
 
@@ -44,15 +43,14 @@ const Touched1 = ()=> {
     else {
         setIstouched1(true)
         setIstouched(false)
-        setIstouched2(false)
     }
 }
 
 const Touched2 = () => {
-    if (istouched2) {}
+    if (istouched2) {
+        setIstouched2(false)
+    }
     else {
-        setIstouched1(false)
-        setIstouched(false)
         setIstouched2(true)
     }
 }
@@ -111,7 +109,7 @@ const Registered3 = () => {
             <View style={{flex:.5, marginLeft:11}}>
                 <Text style={{fontSize:18, fontWeight:'bold'}}>Sort</Text>
             </View>
-            <View style={{flex:3}}>
+            <View style={{flex:2.5}}>
                 <View style={{flex:1, flexDirection:'row',  alignItems:'center', borderBottomWidth:0.2, marginHorizontal:10}}>
                     <Text style={{fontSize:17, alignItems:'flex-start'}}>
                         Top Rated (Default)
@@ -142,7 +140,16 @@ const Registered3 = () => {
             }
             </View>
                 </View>
-                <View style={{flex:1, flexDirection:'row', alignItems:'center', borderBottomWidth:0.2, marginHorizontal:10}}>
+                
+                
+            
+            </View>
+            
+            
+            <View style={{flex:.8 , marginLeft:11, justifyContent:'center'}}>
+                <Text style={{fontSize:18, fontWeight:'bold'}}>Filters</Text>
+            </View>
+            <View style={{flex:1, flexDirection:'row', alignItems:'center', borderBottomWidth:0.2, marginHorizontal:10}}>
                     <Text style={{fontSize:17}}>
                         Recommended Only
                     </Text>
@@ -156,15 +163,9 @@ const Registered3 = () => {
             </TouchableOpacity>
             }
             </View>
+            
                 </View>
-                
-            
-            </View>
-            
-            <View style={{flex:.5, marginLeft:11}}></View>
-            <View style={{flex:1 , marginLeft:11}}>
-                <Text style={{fontSize:18, fontWeight:'bold'}}>Filters</Text>
-            </View>
+                <View style={{flex:.5, marginLeft:11}}></View>
             <View style={{flex:.5, marginLeft:11}}>
                 <Text style={{fontSize:18,}}>Distance</Text>
             </View>

@@ -31,7 +31,7 @@ const DirectionScreen = ({ route }) => {
         mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
             edgePadding: { top: 50, left: 50, right: 50, bottom: 50}
         });    
-       },1000)
+       },100)
             
             console.log("meowmeow2")
     },[originlatitude,originlongitude,destination])
@@ -69,12 +69,16 @@ const DirectionScreen = ({ route }) => {
             
         </MapView> : null}
             </View>
-            <View style={{flex:1, backgroundColor:'pink', justifyContent:'center', alignItems:'center', borderRadius:20, width:'50%', alignSelf:'center',}}>
-                <TouchableOpacity onPress={()=>openMap({start:String(originlatitude)+","+ String(originlongitude), 
+            <View style={{flex:1, backgroundColor:'white'}}>
+            <TouchableOpacity style={{flex:1, backgroundColor:'pink', justifyContent:'center', alignItems:'center', borderRadius:20, width:'100%', alignSelf:'center',}} onPress={()=>openMap({start:String(originlatitude)+","+ String(originlongitude), 
                                                     end: String(destination['latitude'])+"," + String(destination['longitude']),
                                                     travelType: "walk"})}>
+            <View >
+                
                     <Text>Open in Google Maps</Text>
-                </TouchableOpacity>
+
+            </View>
+            </TouchableOpacity>
             </View>
             
         </View>

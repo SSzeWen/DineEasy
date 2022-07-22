@@ -117,7 +117,7 @@ const ResultShowScreen = ({ route }) => {
             </View>
             
             </View>
-            <TouchableOpacity style={{flex:1, alignItems:'center', justifyContent:'center', borderLeftWidth:1}} onPress={()=> RootNavigation.navigate("DirectionsAPI", {coordinate})}>
+            <TouchableOpacity style={{flex:1, alignItems:'center', justifyContent:'center', borderLeftWidth:1}} onPress={()=> RootNavigation.navigate("Map", {coordinate})}>
             <MaterialIcons name="directions" size={30} color="green" />
             </TouchableOpacity>
             
