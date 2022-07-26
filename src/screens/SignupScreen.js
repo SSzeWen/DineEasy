@@ -64,6 +64,17 @@ const SignupScreen = ({ navigation }) => {
             .catch(error => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                if (error.code == "auth/invalid-email")
+                ToastAndroid.show(
+                    "Invalid Email, please enter a valid email",
+                    ToastAndroid.SHORT
+                );
+                else if (error.code == "auth/weak-password") {
+                    ToastAndroid.show(
+                        "Please enter a password that is 6 characters long",
+                        ToastAndroid.SHORT
+                    );
+                }
 
                 console.error('[signUpHandler]', errorCode, errorMessage);
             });

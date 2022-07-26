@@ -46,6 +46,13 @@ return () =>unsubscribeAuthStateChanged;
         );
     };
 
+    const wrongPasswordToast = () => {
+        ToastAndroid.show(
+            'Wrong Email/Password, please try again!',
+            ToastAndroid.SHORT
+        );
+    };
+
     const loginHandler = () => {
         if (email.length === 0 || password.length === 0) {
             missingFieldsToast();
@@ -66,7 +73,7 @@ return () =>unsubscribeAuthStateChanged;
             .catch(error => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-
+                wrongPasswordToast();
                 console.error('[loginHandler]', errorCode, errorMessage);
             });
     };
