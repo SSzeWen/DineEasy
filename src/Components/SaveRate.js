@@ -14,7 +14,13 @@ import { Input } from 'react-native-elements';
 
 const SaveRate = ({props}) => {
     const result = props
-    const photo_reference = result.result.photos[0].photo_reference
+    let photo_reference
+    if (result.result.photos!=undefined) {
+        photo_reference = result.result.photos[0].photo_reference
+    }
+    else {
+        photo_reference = null
+    }
     const restaurant_id = result.result.name
     const score = result.score
     let sentence = result.sentence

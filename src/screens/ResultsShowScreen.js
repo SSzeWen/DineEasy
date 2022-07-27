@@ -58,10 +58,12 @@ const ResultShowScreen = ({ route }) => {
         return null;
     } // not impt also not sure and line 26 also
 
+    console.log(result.result.photos)
     return (
         <View style = {{ flex: 1}}>
             
             <View style={{flex:5, justifyContent:'center', alignItems:'center'}}>
+                {result.result.photos!=undefined?
             <FlatList
                 
                 data={result.result.photos}
@@ -80,7 +82,9 @@ const ResultShowScreen = ({ route }) => {
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }]
-                )}/>
+                )}/>:<View style={{flex:1}}><Image style={styles.image} source={require('../Components/Blank.jpeg')} />
+                </View>}
+                {result.result.photos!=undefined?
             <View style={styles.dotView}>
                     {result.result.photos.map((_, i) => {
                         let opacity = position.interpolate({
@@ -97,6 +101,7 @@ const ResultShowScreen = ({ route }) => {
                     })}
 
                 </View>
+                :null}
             </View>
             <View style={{flex:1, justifyContent:'center', marginLeft:'3%', marginRight:'10%', marginTop:'1%'}}>
                 <Text style={{fontWeight:'bold', fontSize:17}}>

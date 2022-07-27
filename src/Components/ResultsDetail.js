@@ -50,10 +50,13 @@ const Dollarsign = ({result}) => {
 
 const ResultsDetail = ({ result }) => {
     //console.log('ihavereachedhere')
+    console.log(result.gallery)
     return ( 
         <View style={styles.container}>
             <View style={{flex:10}}>
-            <Image style={styles.image} source={{ uri: result.image_url }} />
+            {result.gallery.length!=0?
+            <Image style={styles.image} source={{ uri: result.image_url }} />:
+            <Image style={styles.image} source={require('./Blank.jpeg')} />}
             <Text style={styles.name}>{result.placeName}</Text>
             </View>
             <View>

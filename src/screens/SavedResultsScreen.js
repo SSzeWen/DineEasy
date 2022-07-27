@@ -62,7 +62,9 @@ const SavedResultsScreen = () => {
                 return(
                     <View style={styles.container}>
                         <View style={styles.container1}>
-                            <Image style={styles.image} source={ { uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey} } />
+                            {photo_reference==null? 
+                            <Image style={styles.image} source={require('../Components/Blank.jpeg')}/>:
+                            <Image style={styles.image} source={ { uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' + item.photo_reference + '&key=' + Google_apikey} } />}
                             <View style={styles.container2}>
                                 <View style={{flex:2, marginTop:8}}>
                                     <Text style={{fontWeight: 'bold', fontSize:17}}>{item.desc}</Text>
